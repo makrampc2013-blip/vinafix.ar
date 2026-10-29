@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VinaFix Arabic | إدارة ملفات البايوس والخدمات التقنية</title>
+    <title id="pageTitle">VinaFix Arabic | إدارة ملفات البايوس والخدمات التقنية</title>
+    <!-- كود إثبات ملكية جوجل -->
+    <meta name="google-site-verification" content="google347658b798f7c57a" />
     <style>
         :root {
             --bg-color: #0b0f19;
@@ -29,20 +31,36 @@
         header {
             background-color: var(--card-bg);
             border-bottom: 1px solid var(--border-color);
-            padding: 20px 0;
-            text-align: center;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        header h1 {
-            font-size: 24px;
+        .logo-area h1 {
+            font-size: 20px;
             color: var(--accent-color);
         }
-        header p {
-            font-size: 14px;
+        .logo-area p {
+            font-size: 12px;
             color: var(--text-muted);
-            margin-top: 5px;
+        }
+        .lang-btn {
+            background-color: var(--border-color);
+            color: var(--text-main);
+            border: 1px solid var(--accent-color);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .lang-btn:hover {
+            background-color: var(--accent-color);
+            color: #000;
         }
         .container {
             max-width: 1100px;
@@ -58,13 +76,13 @@
             margin-bottom: 40px;
         }
         .hero h2 {
-            font-size: 28px;
+            font-size: 26px;
             margin-bottom: 15px;
             color: var(--text-main);
         }
         .hero p {
             color: var(--text-muted);
-            font-size: 16px;
+            font-size: 15px;
             margin-bottom: 25px;
         }
         .btn-telegram {
@@ -106,9 +124,6 @@
             font-size: 20px;
             color: var(--accent-color);
             margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         .card p {
             color: var(--text-muted);
@@ -140,17 +155,20 @@
 <body>
 
     <header>
-        <h1>VinaFix Arabic</h1>
-        <p>المنصة العربية الاحترافية لإدارة وشحن البايوس والخدمات التقنية</p>
+        <div class="logo-area">
+            <h1 id="siteName">VinaFix Arabic</h1>
+            <p id="siteSub">المنصة العربية الاحترافية لإدارة وشحن البايوس</p>
+        </div>
+        <button class="lang-btn" onclick="toggleLanguage()" id="langToggleBtn">English</button>
     </header>
 
     <div class="container">
         
         <!-- قسم الترحيب والـ VIP -->
         <div class="hero">
-            <h2>أهلاً بك في البوابة الرسمية لإدارة صيانة الحواسيب</h2>
-            <p>حلول برمجية متقدمة، شحن بايوس، إزالة كلمات المرور، وخدمات VIP مباشرة بإشراف الإدارة.</p>
-            <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="btn-telegram">
+            <h2 id="heroTitle">أهلاً بك في البوابة الرسمية لإدارة صيانة الحواسيب</h2>
+            <p id="heroDesc">حلول برمجية متقدمة، شحن بايوس، إزالة كلمات المرور، وخدمات VIP مباشرة بإشراف الإدارة.</p>
+            <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="btn-telegram" id="telegramBtnText">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-2.01 1.28-5.69 3.77-.54.37-1.03.55-1.47.54-.48-.01-1.4-.27-2.08-.49-.84-.27-1.51-.42-1.45-.89.03-.25.38-.51 1.07-.78 4.2-1.83 7-3.03 8.41-3.61 4-.1.66 4.98 1.47 5.16 1.02.11.19.04.28-.02.08-.07.17-.18.23-.33z"/></svg>
                 تواصل مباشر مع الإدارة (MAKRAM BIOS FIX)
             </a>
@@ -161,30 +179,30 @@
             
             <!-- قسم ملفات البايوس -->
             <div class="card">
-                <h3>📁 ملفات البايوس</h3>
-                <p>أحدث ملفات البايوس الأصلية والمجربة للأجهزة والمصارف بشipsets المختلفة.</p>
-                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link">استعرض الملفات &larr;</a>
+                <h3 id="card1Title">📁 ملفات البايوس</h3>
+                <p id="card1Desc">أحدث ملفات البايوس الأصلية والمجربة للأجهزة والمصارف بشipsets المختلفة.</p>
+                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card1Link">استعرض الملفات &larr;</a>
             </div>
 
             <!-- قسم الـ VIP -->
             <div class="card">
-                <h3>⭐ خدمات VIP</h3>
-                <p>طلبات التعديل الخاصة، تفريغ الأكواد، حل مشاكل الإيقاف وإلغاء قفل الحمايات.</p>
-                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link">اطلب خدمة VIP &larr;</a>
+                <h3 id="card2Title">⭐ خدمات VIP</h3>
+                <p id="card2Desc">طلبات التعديل الخاصة، تفريغ الأكواد، حل مشاكل الإيقاف وإلغاء قفل الحمايات.</p>
+                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card2Link">اطلب خدمة VIP &larr;</a>
             </div>
 
             <!-- قسم التواصل والطلبات -->
             <div class="card">
-                <h3>💬 التواصل والطلبات</h3>
-                <p>قناة الطلبات المباشرة، اترك استفسارك أو ملفك المعطل ليتم فحصه ومعالجته بدقة.</p>
-                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link">أرسل طلبك &larr;</a>
+                <h3 id="card3Title">💬 التواصل والطلبات</h3>
+                <p id="card3Desc">قناة الطلبات المباشرة، اترك استفسارك أو ملفك المعطل ليتم فحصه ومعالجته بدقة.</p>
+                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card3Link">أرسل طلبك &larr;</a>
             </div>
 
             <!-- قسم الاشتراك -->
             <div class="card">
-                <h3>💳 الاشتراكات والدعم</h3>
-                <p>باقات العضوية والدعم الفني المستمر لأصحاب مراكز الصيانة والمهندسين.</p>
-                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link">عرض الباقات &larr;</a>
+                <h3 id="card4Title">💳 الاشتراكات والدعم</h3>
+                <p id="card4Desc">باقات العضوية والدعم الفني المستمر لأصحاب مراكز الصيانة والمهندسين.</p>
+                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card4Link">عرض الباقات &larr;</a>
             </div>
 
         </div>
@@ -192,8 +210,93 @@
     </div>
 
     <footer>
-        <p>جميع الحقوق محفوظة © 2026 - VinaFix Arabic | إشراف: Makram BIOS Fix</p>
+        <p id="footerText">جميع الحقوق محفوظة © 2026 - VinaFix Arabic | إشراف: Makram BIOS Fix</p>
     </footer>
 
+    <script>
+        let currentLang = 'ar';
+
+        const translations = {
+            ar: {
+                dir: 'rtl',
+                toggleBtn: 'English',
+                siteName: 'VinaFix Arabic',
+                siteSub: 'المنصة العربية الاحترافية لإدارة وشحن البايوس',
+                heroTitle: 'أهلاً بك في البوابة الرسمية لإدارة صيانة الحواسيب',
+                heroDesc: 'حلول برمجية متقدمة، شحن بايوس، إزالة كلمات المرور، وخدمات VIP مباشرة بإشراف الإدارة.',
+                telegramBtn: 'تواصل مباشر مع الإدارة (MAKRAM BIOS FIX)',
+                card1Title: '📁 ملفات البايوس',
+                card1Desc: 'أحدث ملفات البايوس الأصلية والمجربة للأجهزة والمصارف بشipsets المختلفة.',
+                card1Link: 'استعرض الملفات ←',
+                card2Title: '⭐ خدمات VIP',
+                card2Desc: 'طلبات التعديل الخاصة، تفريغ الأكواد، حل مشاكل الإيقاف وإلغاء قفل الحمايات.',
+                card2Link: 'اطلب خدمة VIP ←',
+                card3Title: '💬 التواصل والطلبات',
+                card3Desc: 'قناة الطلبات المباشرة، اترك استفسارك أو ملفك المعطل ليتم فحصه ومعالجته بدقة.',
+                card3Link: 'أرسل طلبك ←',
+                card4Title: '💳 الاشتراكات والدعم',
+                card4Desc: 'باقات العضوية والدعم الفني المستمر لأصحاب مراكز الصيانة والمهندسين.',
+                card4Link: 'عرض الباقات ←',
+                footerText: 'جميع الحقوق محفوظة © 2026 - VinaFix Arabic | إشراف: Makram BIOS Fix'
+            },
+            en: {
+                dir: 'ltr',
+                toggleBtn: 'العربية',
+                siteName: 'VinaFix Arabic',
+                siteSub: 'Professional Arabic Platform for BIOS & Tech Services',
+                heroTitle: 'Welcome to the Official Computer Repair Portal',
+                heroDesc: 'Advanced software solutions, BIOS flashing, password removal, and direct VIP services under expert supervision.',
+                telegramBtn: 'Direct Contact with Admin (MAKRAM BIOS FIX)',
+                card1Title: '📁 BIOS Files',
+                card1Desc: 'Latest original and tested BIOS files for various motherboards and chipsets.',
+                card1Link: 'Browse Files →',
+                card2Title: '⭐ VIP Services',
+                card2Desc: 'Custom modification requests, clean ME regions, unlock and security bypass solutions.',
+                card2Link: 'Request VIP Service →',
+                card3Title: '💬 Contact & Requests',
+                card3Desc: 'Direct request channel, leave your inquiry or corrupted file for precise diagnostics.',
+                card3Link: 'Send Request →',
+                card4Title: '💳 Subscriptions & Support',
+                card4Desc: 'Membership packages and continuous technical support for repair shops and engineers.',
+                card4Link: 'View Packages →',
+                footerText: 'All Rights Reserved © 2026 - VinaFix Arabic | Supervised by: Makram BIOS Fix'
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const t = translations[currentLang];
+
+            document.getElementById('htmlRoot').setAttribute('dir', t.dir);
+            document.getElementById('htmlRoot').setAttribute('lang', currentLang);
+            document.getElementById('langToggleBtninnerText' || 'langToggleBtn').innerText = t.toggleBtn;
+            document.getElementById('siteName').innerText = t.siteName;
+            document.getElementById('siteSub').innerText = t.siteSub;
+            document.getElementById('heroTitle').innerText = t.heroTitle;
+            document.getElementById('heroDesc').innerText = t.heroDesc;
+            
+            // تحديث زر التيليجرام مع الحفاظ على الأيقونة
+            const tgBtn = document.getElementById('telegramBtnText');
+            tgBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-2.01 1.28-5.69 3.77-.54.37-1.03.55-1.47.54-.48-.01-1.4-.27-2.08-.49-.84-.27-1.51-.42-1.45-.89.03-.25.38-.51 1.07-.78 4.2-1.83 7-3.03 8.41-3.61 4-.1.66 4.98 1.47 5.16 1.02.11.19.04.28-.02.08-.07.17-.18.23-.33z"/></svg> ${t.telegramBtn}`;
+
+            document.getElementById('card1Title').innerText = t.card1Title;
+            document.getElementById('card1Desc').innerText = t.card1Desc;
+            document.querySelectorAll('.card1Link').forEach(el => el.innerText = t.card1Link);
+
+            document.getElementById('card2Title').innerText = t.card2Title;
+            document.getElementById('card2Desc').innerText = t.card2Desc;
+            document.querySelectorAll('.card2Link').forEach(el => el.innerText = t.card2Link);
+
+            document.getElementById('card3Title').innerText = t.card3Title;
+            document.getElementById('card3Desc').innerText = t.card3Desc;
+            document.querySelectorAll('.card3Link').forEach(el => el.innerText = t.card3Link);
+
+            document.getElementById('card4Title').innerText = t.card4Title;
+            document.getElementById('card4Desc').innerText = t.card4Desc;
+            document.querySelectorAll('.card4Link').forEach(el => el.innerText = t.card4Link);
+
+            document.getElementById('footerText').innerText = t.footerText;
+        }
+    </script>
 </body>
 </html>
