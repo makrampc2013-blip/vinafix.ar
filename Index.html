@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinaFix Arabic | إشراف: Makram BIOS Fix</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        header { background: linear-gradient(135deg, #1e293b, #0f172a); border-bottom: 2px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .logo-area h1 { font-size: 1.5rem; color: var(--accent-color); }
+        .logo-area p { font-size: 0.8rem; color: var(--text-muted); }
+        nav ul { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; }
+        nav a { color: var(--text-main); text-decoration: none; font-weight: 600; transition: 0.3s; padding: 5px 10px; border-radius: 5px; }
+        nav a:hover { color: var(--accent-color); background: rgba(56, 189, 248, 0.1); }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .hero { background: linear-gradient(135deg, #1e293b, #334155); padding: 40px 20px; border-radius: 12px; text-align: center; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .hero h2 { font-size: 1.8rem; margin-bottom: 10px; color: var(--accent-color); }
+        .hero p { color: var(--text-muted); margin-bottom: 20px; }
+        .search-box { display: flex; justify-content: center; gap: 10px; max-width: 600px; margin: 0 auto; flex-wrap: wrap; }
+        .search-box input { flex: 1; min-width: 250px; padding: 12px 20px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-main); font-size: 1rem; outline: none; }
+        .search-box input:focus { border-color: var(--accent-color); }
+        .btn { background-color: var(--accent-color); color: #0f172a; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background-color: var(--accent-hover); }
+        .sections-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 25px; transition: transform 0.3s, border-color 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent-color); }
+        .card h3 { margin-bottom: 15px; color: var(--accent-color); }
+        .card p { color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem; }
+        .card-btn { display: inline-block; background: transparent; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 8px 15px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: bold; transition: 0.3s; }
+        .card-btn:hover { background: var(--accent-color); color: #0f172a; }
+        footer { text-align: center; padding: 30px; border-top: 1px solid var(--border-color); color: var(--text-muted); margin-top: 50px; background: var(--card-bg); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <h1>VinaFix Arabic</h1>
+            <p>إشراف وإدارة: Makram BIOS Fix</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#bios">ملفات البايوس</a></li>
+                <li><a href="#schematics">المخططات</a></li>
+                <li><a href="#vip">طلب إصلاح Clean ME</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="hero" id="home">
+            <h2>المنصة العربية الأولى لصيانة اللوحات الأم والبايوس</h2>
+            <p>أكبر مكتبة لملفات البايوس النظيفة، المخططات التقنية، وحلول الفك والبرمجة الاحترافية.</p>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="ابحث برقم البوردة، موديل اللابتوب، أو رقم المخطط...">
+                <button class="btn" onclick="performSearch()">بحث سريع</button>
+            </div>
+        </div>
+
+        <div class="sections-grid">
+            <div class="card" id="bios">
+                <h3>📁 ملفات BIOS النظيفة</h3>
+                <p>مكتبة متكاملة لملفات البايوس لأجهزة اللابتوب واللوحات المكتبية مع تفريغ منطقة ME وسحب رسمي آمن ومجرب 100%.</p>
+                <a href="#" class="card-btn" onclick="alert('سيتم توجيهك لقسم ملفات البايوس قريباً')">تصفح الملفات</a>
+            </div>
+            <div class="card" id="schematics">
+                <h3>📐 مخططات Schematics</h3>
+                <p>مخططات دوائر الباور، boardviews، وتتبع خطوط التغذية وحل مشاكل الشورت الباور بدقة واحترافية عالية.</p>
+                <a href="#" class="card-btn" onclick="alert('سيتم توجيهك لقسم المخططات قريباً')">تصفح المخططات</a>
+            </div>
+            <div class="card" id="vip">
+                <h3>🛠️ خدمة طلبات التعديل (VIP)</h3>
+                <p>ارسل ملفك التالف، المحمي بكلمة سر، أو مشاكل الإطفاء، وسيقوم مكرم بايو فيكس بإصلاحه وتعديله خصيصاً لك.</p>
+                <a href="#" class="card-btn" onclick="alert('تواصل معنا عبر التيليجرام لطلب خدمة VIP')">اطلب الخدمة</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2026 VinaFix Arabic | إشراف وإدارة: مكرم بايو فيكس (Makram BIOS Fix)</p>
+    </footer>
+
+    <script>
+        function performSearch() {
+            const query = document.getElementById('searchInput').value;
+            if(query.trim() === "") {
+                alert("الرجاء إدخال كلمة البحث (رقم بوردة أو موديل)");
+            } else {
+                alert("جاري البحث عن: " + query + " ... (سيتم ربط قاعدة البيانات قريباً)");
+            }
+        }
+    </script>
+
+</body>
+</html>
