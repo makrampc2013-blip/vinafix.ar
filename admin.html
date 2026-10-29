@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المشرف | Makram BIOS Fix</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #111827;
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1f2937;
+            --success-color: #22c55e;
+            --vip-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; }
+        .container { max-width: 950px; margin: 30px auto; background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        h2 { color: var(--vip-color); text-align: center; margin-bottom: 20px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .form-control { width: 100%; padding: 12px; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; outline: none; }
+        .form-control:focus { border-color: var(--vip-color); }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
+        .submit-btn { width: 100%; background-color: var(--vip-color); color: #000; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { opacity: 0.85; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: var(--accent-color); text-decoration: none; font-weight: bold; }
+        
+        .bios-table { width: 100%; border-collapse: collapse; text-align: right; margin-top: 20px; }
+        .bios-table th, .bios-table td { padding: 12px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        .bios-table th { background-color: rgba(245, 158, 11, 0.1); color: var(--vip-color); }
+        .delete-btn { background-color: var(--danger-color); color: #fff; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; العودة إلى الموقع الرئيسي</a>
+        <h2>⚙️ لوحة تحكم المشرف (Makram BIOS Fix)</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أضف الملفات واختر ما إذا كانت ستنشر في "القسم العام" أو "قسم الـ VIP الحصري"</p>
+
+        <form onsubmit="addFile(event)">
+            <div class="form-grid">
+                <div>
+                    <label>نوع النشر:</label>
+                    <select id="sectionType" class="form-control">
+                        <option value="public">📂 قسم عام (مجاني للكل)</option>
+                        <option value="vip">⭐ قسم VIP (للمشتركين فقط)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>موديل اللوحة / الجهاز:</label>
+                    <input type="text" id="model" class="form-control" required placeholder="مثال: HP ProBook">
+                </div>
+                <div>
+                    <label>وصف الإصدار:</label>
+                    <input type="text" id="desc" class="form-control" required placeholder="مثال: Clean ME Tested">
+                </div>
+                <div>
+                    <label>رابط تحميل البايوس:</label>
+                    <input type="url" id="biosLink" class="form-control" required placeholder="https://...">
+                </div>
+                <div>
+                    <label>رابط تحميل Boardview:</label>
+                    <input type="url" id="bvLink" class="form-control" required placeholder="https://...">
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">➕ نشر الملف في القسم المحدد</button>
+        </form>
+
+        <h3 style="margin-top: 40px; margin-bottom: 10px; color: var(--accent-color);">📋 الملفات العامة الحالية:</h3>
+        <div style="overflow-x: auto;">
+            <table class="bios-table">
+                <thead>
+                    <tr><th>الموديل</th><th>الوصف</th><th>البايوس</th><th>البوردفيو</th><th>إدارة</th></tr>
+                </thead>
+                <tbody id="adminPublicBody"></tbody>
+            </table>
+        </div>
+
+        <h3 style="margin-top: 40px; margin-bottom: 10px; color: var(--vip-color);">⭐ ملفات الـ VIP الحصرية الحالية:</h3>
+        <div style="overflow-x: auto;">
+            <table class="bios-table">
+                <thead>
+                    <tr><th>الموديل</th><th>الوصف</th><th>البايوس</th><th>البوردفيو</th><th>إدارة</th></tr>
+                </thead>
+                <tbody id="adminVipBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            let pass = prompt("أدخل كلمة مرور المشرف الخاصة بك:");
+            if (pass !== "makram123") {
+                alert("كلمة المرور خاطئة!");
+                window.location.href = "index.html";
+                return;
+            }
+            loadTables();
+        };
+
+        function loadTables() {
+            let pubTable = localStorage.getItem('makramBiosTable');
+            if (pubTable) document.getElementById('adminPublicBody').innerHTML = pubTable;
+
+            let vipTable = localStorage.getItem('makramVipTable');
+            if (vipTable) document.getElementById('adminVipBody').innerHTML = vipTable;
+        }
+
+        function addFile(event) {
+            event.preventDefault();
+            let type = document.getElementById('sectionType').value;
+            let model = document.getElementById('model').value;
+            let desc = document.getElementById('desc').value;
+            let biosLink = document.getElementById('biosLink').value;
+            let bvLink = document.getElementById('bvLink').value;
+
+            let newRow = document.createElement('tr');
+            let labelBadge = type === 'vip' ? '<span style="background:var(--vip-color); color:#000; padding:2px 6px; border-radius:4px; font-size:11px; margin-left:5px;">VIP</span>' : '';
+            
+            newRow.innerHTML = `
+                <td>${labelBadge}${model}</td>
+                <td>${desc}</td>
+                <td><a href="${biosLink}" target="_blank" style="color:var(--accent-color)">تحميل</a></td>
+                <td><a href="${bvLink}" target="_blank" style="color:var(--vip-color)">تحميل</a></td>
+                <td><button class="delete-btn" onclick="this.closest('tr').remove(); saveTables();">حذف</button></td>
+            `;
+
+            if (type === 'public') {
+                document.getElementById('adminPublicBody').appendChild(newRow);
+            } else {
+                document.getElementById('adminVipBody').appendChild(newRow);
+            }
+
+            saveTables();
+            document.getElementById('model').value = '';
+            document.getElementById('desc').value = '';
+            document.getElementById('biosLink').value = '';
+            document.getElementById('bvLink').value = '';
+            alert("تمت الإضافة بنجاح ونشرها في القسم المخصص!");
+        }
+
+        function saveTables() {
+            localStorage.setItem('makramBiosTable', document.getElementById('adminPublicBody').innerHTML);
+            localStorage.setItem('makramVipTable', document.getElementById('adminVipBody').innerHTML);
+        }
+    </script>
+</body>
+</html>
