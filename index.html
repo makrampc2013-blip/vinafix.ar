@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="htmlRoot">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">Makram BIOS Fix | المنصة العربية المتكاملة</title>
+    <title>Makram BIOS Fix | المنصة العربية الاحترافية</title>
     <meta name="google-site-verification" content="n_Nc-kHjqMlaYKi1d0qAejFuCA3M3KKFtNitHgbHAIE" />
     <style>
         :root {
@@ -15,534 +15,184 @@
             --text-muted: #94a3b8;
             --border-color: #1f2937;
             --success-color: #22c55e;
-            --boardview-color: #f59e0b;
-            --danger-color: #ef4444;
+            --vip-color: #f59e0b;
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-        header {
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo-area h1 {
-            font-size: 20px;
-            color: var(--accent-color);
-        }
-        .logo-area p {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .header-btns {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-custom {
-            background-color: var(--border-color);
-            color: var(--text-main);
-            border: 1px solid var(--accent-color);
-            padding: 6px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .btn-custom:hover {
-            background-color: var(--accent-color);
-            color: #000;
-        }
-        .admin-btn {
-            border-color: var(--boardview-color);
-            color: var(--boardview-color);
-        }
-        .admin-btn:hover {
-            background-color: var(--boardview-color);
-            color: #000;
-        }
-        .container {
-            max-width: 1150px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        .hero {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-        .hero h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: var(--text-main);
-        }
-        .hero p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        header { background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo-area h1 { font-size: 20px; color: var(--accent-color); }
+        .logo-area p { font-size: 12px; color: var(--text-muted); }
+        .admin-link { background-color: var(--vip-color); color: #000; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .admin-link:hover { opacity: 0.85; }
+        .container { max-width: 1150px; margin: 30px auto; padding: 0 20px; }
+        .hero { text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 30px; }
+        .hero h2 { font-size: 24px; margin-bottom: 10px; color: var(--text-main); }
+        .hero p { color: var(--text-muted); font-size: 14px; }
+        .section-box { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; margin-bottom: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .section-box h3 { color: var(--accent-color); font-size: 22px; margin-bottom: 8px; text-align: center; }
+        .section-box p.subtitle { text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
         
-        .section-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .section-box h3 {
-            color: var(--accent-color);
-            font-size: 22px;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .section-box p.subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
+        /* تنسيق قسم الـ VIP */
+        .vip-section { border: 2px dashed var(--vip-color); background: linear-gradient(135deg, rgba(245,158,11,0.05), #111827); }
+        .vip-lock-box { text-align: center; padding: 20px; }
+        .vip-content { display: none; }
+        .vip-badge { background-color: var(--vip-color); color: #000; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-right: 8px; }
 
-        /* لوحة التحكم الخاصة بالمشرف */
-        #adminPanel {
-            display: none;
-            border: 2px dashed var(--boardview-color);
-            background-color: rgba(245, 158, 11, 0.03);
-        }
-        .admin-form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-        .bios-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: right;
-            margin-top: 10px;
-        }
-        .bios-table th, .bios-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-        }
-        .bios-table th {
-            background-color: rgba(56, 189, 248, 0.1);
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-        .bios-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-        .download-btn {
-            background-color: var(--accent-color);
-            color: #0b0f19;
-            padding: 6px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 13px;
-            transition: 0.3s;
-            display: inline-block;
-            margin-left: 5px;
-        }
-        .download-btn:hover {
-            background-color: var(--accent-hover);
-        }
-        .bv-btn {
-            background-color: var(--boardview-color);
-            color: #0b0f19;
-            padding: 6px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 13px;
-            transition: 0.3s;
-            display: inline-block;
-        }
-        .bv-btn:hover {
-            opacity: 0.85;
-        }
-        .delete-btn {
-            background-color: var(--danger-color);
-            color: #fff;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        .delete-btn:hover {
-            opacity: 0.8;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
-        }
-        .form-control:focus {
-            border-color: var(--accent-color);
-        }
-        textarea.form-control {
-            resize: vertical;
-            min-height: 100px;
-        }
-        .file-input-wrapper {
-            border: 2px dashed var(--border-color);
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            background-color: var(--bg-color);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .file-input-wrapper:hover {
-            border-color: var(--accent-color);
-        }
-        .file-input-wrapper input {
-            display: none;
-        }
-        .file-name-display {
-            margin-top: 8px;
-            font-size: 13px;
-            color: var(--accent-color);
-        }
-        .submit-btn {
-            width: 100%;
-            background-color: var(--accent-color);
-            color: #0b0f19;
-            border: none;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .submit-btn:hover {
-            background-color: var(--accent-hover);
-        }
+        .table-responsive { overflow-x: auto; }
+        .bios-table { width: 100%; border-collapse: collapse; text-align: right; margin-top: 10px; }
+        .bios-table th, .bios-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        .bios-table th { background-color: rgba(56, 189, 248, 0.1); color: var(--accent-color); font-weight: bold; }
+        .bios-table tr:hover { background-color: rgba(255, 255, 255, 0.02); }
+        .download-btn { background-color: var(--accent-color); color: #0b0f19; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-block; margin-left: 5px; }
+        .bv-btn { background-color: var(--vip-color); color: #0b0f19; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-block; }
         
-        .success-box {
-            display: none;
-            background-color: rgba(34, 197, 94, 0.1);
-            border: 1px solid var(--success-color);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .success-box h4 {
-            color: var(--success-color);
-            margin-bottom: 5px;
-            font-size: 18px;
-        }
-        .success-box p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 14px;
-            background-color: var(--card-bg);
-        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
+        .form-control { width: 100%; padding: 12px 15px; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; outline: none; }
+        .form-control:focus { border-color: var(--accent-color); }
+        textarea.form-control { resize: vertical; min-height: 100px; }
+        .file-input-wrapper { border: 2px dashed var(--border-color); padding: 20px; text-align: center; border-radius: 8px; background-color: var(--bg-color); cursor: pointer; }
+        .file-input-wrapper input { display: none; }
+        .file-name-display { margin-top: 8px; font-size: 13px; color: var(--accent-color); }
+        .submit-btn { width: 100%; background-color: var(--accent-color); color: #0b0f19; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { background-color: var(--accent-hover); }
+        footer { text-align: center; padding: 25px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 14px; background-color: var(--card-bg); }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo-area">
-            <h1 id="siteName">Makram BIOS Fix</h1>
-            <p id="siteSub">المنصة العربية الاحترافية لصيانة اللوحات الأم والبايوس</p>
+            <h1>Makram BIOS Fix</h1>
+            <p>المنصة العربية الاحترافية لصيانة اللوحات الأم</p>
         </div>
-        <div class="header-btns">
-            <button class="btn-custom admin-btn" onclick="toggleAdminPanel()">🔐 دخول المشرف</button>
-            <button class="btn-custom" onclick="toggleLanguage()" id="langToggleBtn">English</button>
+        <div>
+            <a href="admin.html" class="admin-link" target="_blank">⚙️ لوحة المشرف</a>
         </div>
     </header>
 
     <div class="container">
-        
         <div class="hero">
-            <h2 id="heroTitle">البوابة الرسمية لصيانة اللوحات الأم</h2>
-            <p id="heroDesc">مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وإدارة الطلبات المباشرة.</p>
+            <h2>البوابة الرسمية لصيانة اللوحات الأم</h2>
+            <p>مكتبة الملفات العامة، وقسم اشتراكات الـ VIP الحصرية للمحترفين.</p>
         </div>
 
-        <!-- 🔐 لوحة التحكم الخاصة بالمشرف (مخفية تفتح بكلمة مرور) -->
-        <div class="section-box" id="adminPanel">
-            <h3 style="color: var(--boardview-color);">⚙️ لوحة تحكم المشرف (Makram BIOS Fix Admin)</h3>
-            <p class="subtitle">أضف ملفات جديدة للجدول أو احذف الموجودة بكل سهولة مباشرة من متصفحك</p>
-            
-            <form onsubmit="addFileToTable(event)">
-                <div class="admin-form-grid">
-                    <div>
-                        <label>موديل الجهاز / اللوحة:</label>
-                        <input type="text" id="newModel" class="form-control" required placeholder="مثال: Dell 5490">
-                    </div>
-                    <div>
-                        <label>وصف الإصدار:</label>
-                        <input type="text" id="newDesc" class="form-control" required placeholder="مثال: Clean ME Tested">
-                    </div>
-                    <div>
-                        <label>رابط تحميل البايوس:</label>
-                        <input type="url" id="newBiosLink" class="form-control" required placeholder="https://...">
-                    </div>
-                    <div>
-                        <label>رابط تحميل Boardview:</label>
-                        <input type="url" id="newBvLink" class="form-control" required placeholder="https://...">
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn" style="background-color: var(--boardview-color); color: #000;">➕ إضافة الملف للجدول فوراً</button>
-            </form>
-        </div>
-
-        <!-- مكتبة ملفات البايوس والبوردفيو -->
+        <!-- 1. مكتبة الملفات العامة -->
         <div class="section-box">
-            <h3 id="libraryTitle">📂 مكتبة البايوس والبوردفيو المجربة</h3>
-            <p class="subtitle" id="librarySub">حمل ملفات البايوس ومخططات البوردفيو مباشرة بضغطة زر واحدة</p>
-            
+            <h3>📂 مكتبة الملفات العامة المجانية</h3>
+            <p class="subtitle">الملفات الأساسية والمجربة المتاحة لكافة الزوار</p>
             <div class="table-responsive">
                 <table class="bios-table">
                     <thead>
                         <tr>
-                            <th id="thModel">موديل الجهاز / اللوحة الأم</th>
-                            <th id="thDesc">وصف الإصدار</th>
-                            <th id="thStatus">الحالة</th>
-                            <th id="thBios">ملف البايوس (BIOS)</th>
-                            <th id="thBv">مخطط البوردفيو (Boardview)</th>
-                            <th id="thControl" style="display:none;" id="adminTh">إدارة المشرف</th>
+                            <th>موديل الجهاز / اللوحة</th>
+                            <th>وصف الإصدار</th>
+                            <th>الحالة</th>
+                            <th>البايوس</th>
+                            <th>البوردفيو</th>
                         </tr>
                     </thead>
-                    <tbody id="biosTableBody">
-                        <!-- البيانات الافتراضية -->
+                    <tbody id="publicTableBody">
                         <tr>
                             <td>Dell Latitude 5490</td>
                             <td>Clean ME - Tested</td>
                             <td style="color: var(--success-color);">متوفر</td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn">تحميل البايوس</a></td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn">تحميل Boardview</a></td>
-                            <td class="admin-col" style="display:none;"><button class="delete-btn" onclick="this.closest('tr').remove(); saveTableData();">حذف</button></td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn">تحميل</a></td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn">Boardview</a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- نموذج رفع الطلبات -->
-        <div class="section-box">
-            <h3 id="formHeaderTitle">📥 اطلب ملف بايوس أو بوردفيو خاص</h3>
-            <p class="subtitle" id="formHeaderSub">أدخل تفاصيل جهازك وارفع الملف أو اطلب المخطط ليصلك عبر تليجرام فوراً</p>
+        <!-- 2. قسم اشتراكات الـ VIP المقفل (المحتوى الحصري) -->
+        <div class="section-box vip-section">
+            <h3 style="color: var(--vip-color);">⭐ قسم ملفات ومخططات VIP الحصرية</h3>
+            <p class="subtitle">محتوى متقدم للمحترفين (يتطلب اشتراك مفعل لتظهر الروابط)</p>
             
-            <form id="biosRequestForm" onsubmit="handleFormSubmit(event)">
+            <!-- قفل القسم (يظهر للزائر العادي) -->
+            <div id="vipLockBox" class="vip-lock-box">
+                <p style="margin-bottom: 15px; color: var(--text-muted);">هذا القسم يحتوي على أحدث ملفات البايوس النادرة ومخططات البوردفيو المعقدة.<br>أدخل كود اشتراك الـ VIP الخاص بك لفتح المحتوى:</p>
+                <div style="display: flex; max-width: 400px; margin: 0 auto; gap: 10px;">
+                    <input type="password" id="vipCodeInput" class="form-control" placeholder="أدخل كود الاشتراك...">
+                    <button onclick="unlockVip()" class="submit-btn" style="background-color: var(--vip-color); color: #000; width: 140px;">فتح VIP</button>
+                </div>
+                <p style="margin-top: 15px; font-size: 13px;"><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" style="color: var(--accent-color);">للاشتراك والحصول على الكود تواصل معنا عبر تيليجرام ←</a></p>
+            </div>
+
+            <!-- محتوى الـ VIP (يفتح تلقائياً عند إدخال الكود الصحيح) -->
+            <div id="vipContentBox" class="vip-content">
+                <div style="text-align: left; margin-bottom: 10px;">
+                    <button onclick="lockVip()" style="background: transparent; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;">إغلاق القفل (تسجيل خروج VIP)</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="bios-table">
+                        <thead>
+                            <tr>
+                                <th>موديل الجهاز / اللوحة</th>
+                                <th>وصف الإصدار الحصري</th>
+                                <th>الحالة</th>
+                                <th>البايوس VIP</th>
+                                <th>البوردفيو VIP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vipTableBody">
+                            <!-- سيتم جلب ملفات الـ VIP المضافة من لوحتك هنا تلقائياً -->
+                            <tr>
+                                <td><span class="vip-badge">VIP</span> MacBook Pro M1/M2 Dump</td>
+                                <span>Complete firmware package</span>
+                                <td style="color: var(--success-color);">حصري</td>
+                                <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn">تحميل VIP</a></td>
+                                <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn">Boardview VIP</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. نموذج الطلبات المباشر (مرتبط بإيميلك) -->
+        <div class="section-box">
+            <h3>📥 اطلب ملف خاص للإدارة</h3>
+            <p class="subtitle">أدخل تفاصيل جهازك وارفع الملف ليصل الطلب مباشرة إلى إيميلك الشخصي</p>
+            
+            <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="apikey" value="YOUR_ACCESS_KEY_HERE">
+
                 <div class="form-group">
-                    <label id="labelName" for="clientName">الاسم الكريم أو اسم المركز:</label>
-                    <input type="text" id="clientName" class="form-control" required placeholder="مثال: أحمد للصيانة">
+                    <label>الاسم الكريم أو اسم المركز:</label>
+                    <input type="text" name="Client_Name" class="form-control" required placeholder="مثال: مركز الصيانة الحديث">
                 </div>
 
                 <div class="form-group">
-                    <label id="labelModel" for="deviceModel">موديل اللوحة الأم / الجهاز:</label>
-                    <input type="text" id="deviceModel" class="form-control" required placeholder="مثال: Asus TUF Gaming A15">
+                    <label>موديل اللوحة الأم / الجهاز:</label>
+                    <input type="text" name="Device_Model" class="form-control" required placeholder="مثال: HP Pavilion Gaming 15">
                 </div>
 
                 <div class="form-group">
-                    <label id="labelDesc" for="problemDesc">وصف الطلب (بايوس، بوردفيو، أو صيانة):</label>
-                    <textarea id="problemDesc" class="form-control" required placeholder="مثال: أطلب ملف بايوس وبوردفيو لهذه اللوحة..."></textarea>
+                    <label>وصف الطلب:</label>
+                    <textarea name="Message" class="form-control" required placeholder="اكتب تفاصيل المشكلة أو الطلب..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label id="labelFile" for="biosFile">اختر ملف البايوس (اختياري إن وجد):</label>
+                    <label>اختر ملف البايوس (إن وجد):</label>
                     <div class="file-input-wrapper" onclick="document.getElementById('biosFile').click()">
-                        <span id="filePromptText">📁 انقر هنا لاختيار ملف البايوس من جهازك</span>
-                        <input type="file" id="biosFile" accept=".bin,.rom,.hex,.zip,.rar,.brd" onchange="updateFileName(this)">
+                        <span id="filePromptText">📁 انقر هنا لاختيار الملف من جهازك</span>
+                        <input type="file" name="attachment" id="biosFile" accept=".bin,.rom,.hex,.zip,.rar,.brd" onchange="updateFileName(this)">
                         <div id="selectedFileName" class="file-name-display"></div>
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtnText">إرسال الطلب وإشعار الإدارة</button>
+                <button type="submit" class="submit-btn">إرسال الطلب إلى الإدارة</button>
             </form>
-
-            <div id="successMessage" class="success-box">
-                <h4 id="successTitle">✅ تم إرسال طلبك بنجاح!</h4>
-                <p id="successDesc">تم تحويل تفاصيل طلبك إلى إدارة Makram BIOS Fix بنجاح. سيتم توفير الملفات المطلوبة والرد عليك فوراً.</p>
-            </div>
         </div>
-
     </div>
 
     <footer>
-        <p id="footerText">جميع الحقوق محفوظة © 2026 - Makram BIOS Fix | المنصة العربية المتكاملة</p>
+        <p>جميع الحقوق محفوظة © 2026 - Makram BIOS Fix | المنصة العربية المتكاملة</p>
     </footer>
 
     <script>
-        let isAdminLoggedIn = false;
-
-        function toggleAdminPanel() {
-            if (!isAdminLoggedIn) {
-                let pass = prompt("أدخل كلمة مرور المشرف الخاصة بك:");
-                if (pass === "makram123") { // كلمة المرور الخاصة بك (يمكنك تغييرها لاحقاً)
-                    isAdminLoggedIn = true;
-                    document.getElementById('adminPanel').style.display = 'block';
-                    showAdminColumns(true);
-                    alert("مرحباً بك يا مكرم! تم تفعيل لوحة التحكم.");
-                } else if (pass !== null) {
-                    alert("كلمة المرور غير صحيحة!");
-                }
-            } else {
-                isAdminLoggedIn = false;
-                document.getElementById('adminPanel').style.display = 'none';
-                showAdminColumns(false);
-            }
-        }
-
-        function showAdminColumns(show) {
-            let cols = document.querySelectorAll('.admin-col');
-            cols.forEach(el => el.style.display = show ? 'table-cell' : 'none');
-            let adminTh = document.getElementById('adminTh');
-            if(adminTh) adminTh.style.display = show ? 'table-cell' : 'none';
-        }
-
-        function addFileToTable(event) {
-            event.preventDefault();
-            let model = document.getElementById('newModel').value;
-            let desc = document.getElementById('newDesc').value;
-            let biosLink = document.getElementById('newBiosLink').value;
-            let bvLink = document.getElementById('newBvLink').value;
-
-            let tbody = document.getElementById('biosTableBody');
-            let newRow = document.createElement('tr');
-            
-            let displayStyle = isAdminLoggedIn ? 'table-cell' : 'none';
-
-            newRow.innerHTML = `
-                <td>${model}</td>
-                <td>${desc}</td>
-                <td style="color: var(--success-color);">متوفر</td>
-                <td><a href="${biosLink}" target="_blank" class="download-btn">تحميل البايوس</a></td>
-                <td><a href="${bvLink}" target="_blank" class="bv-btn">تحميل Boardview</a></td>
-                <td class="admin-col" style="display:${displayStyle};"><button class="delete-btn" onclick="this.closest('tr').remove(); saveTableData();">حذف</button></td>
-            `;
-
-            tbody.appendChild(newRow);
-            saveTableData();
-            
-            // تفريغ الحقول
-            document.getElementById('newModel').value = '';
-            document.getElementById('newDesc').value = '';
-            document.getElementById('newBiosLink').value = '';
-            document.getElementById('newBvLink').value = '';
-            alert("تمت الإضافة بنجاح وتحديث الجدول!");
-        }
-
-        function saveTableData() {
-            // حفظ البيانات محلياً بحيث تبقى ظاهرة على متصفحك
-            localStorage.setItem('makramBiosTable', document.getElementById('biosTableBody').innerHTML);
-        }
-
-        window.onload = function() {
-            let savedTable = localStorage.getItem('makramBiosTable');
-            if (savedTable) {
-                document.getElementById('biosTableBody').innerHTML = savedTable;
-                showAdminColumns(false);
-            }
-        };
-
-        let currentLang = 'ar';
-        const translations = {
-            ar: {
-                dir: 'rtl',
-                toggleBtn: 'English',
-                siteName: 'Makram BIOS Fix',
-                siteSub: 'المنصة العربية الاحترافية لصيانة اللوحات الأم والبايوس',
-                heroTitle: 'البوابة الرسمية لصيانة اللوحات الأم',
-                heroDesc: 'مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وإدارة الطلبات المباشرة.',
-                libraryTitle: '📂 مكتبة البايوس والبوردفيو المجربة',
-                librarySub: 'حمل ملفات البايوس ومخططات البوردفيو مباشرة بضغطة زر واحدة',
-                thModel: 'موديل الجهاز / اللوحة الأم',
-                thDesc: 'وصف الإصدار',
-                thStatus: 'الحالة',
-                thBios: 'ملف البايوس (BIOS)',
-                thBv: 'مخطط البوردفيو (Boardview)',
-                formHeaderTitle: '📥 اطلب ملف بايوس أو بوردفيو خاص',
-                formHeaderSub: 'أدخل تفاصيل جهازك وارفع الملف أو اطلب المخطط ليصلك عبر تليجرام فوراً',
-                labelName: 'الاسم الكريم أو اسم المركز:',
-                labelModel: 'موديل اللوحة الأم / الجهاز:',
-                labelDesc: 'وصف الطلب (بايوس، بوردفيو، أو صيانة):',
-                labelFile: 'اختر ملف البايوس (اختياري إن وجد):',
-                filePromptText: '📁 انقر هنا لاختيار ملف البايوس من جهازك',
-                submitBtnText: 'إرسال الطلب وإشعار الإدارة',
-                successTitle: '✅ تم إرسال طلبك بنجاح!',
-                successDesc: 'تم تحويل تفاصيل طلبك إلى إدارة Makram BIOS Fix بنجاح. سيتم توفير الملفات المطلوبة والرد عليك فوراً.',
-                footerText: 'جميع الحقوق محفوظة © 2026 - Makram BIOS Fix | المنصة العربية المتكاملة'
-            },
-            en: {
-                dir: 'ltr',
-                toggleBtn: 'العربية',
-                siteName: 'Makram BIOS Fix',
-                siteSub: 'Professional Arabic Platform for Motherboard & BIOS Repair',
-                heroTitle: 'Official Motherboard Repair Portal',
-                heroDesc: 'Tested BIOS and Boardview library with direct request system.',
-                libraryTitle: '📂 BIOS & Boardview Library',
-                librarySub: 'Download BIOS files and Boardview schematics directly with a single click',
-                thModel: 'Device / Motherboard Model',
-                thDesc: 'Description',
-                thStatus: 'Status',
-                thBios: 'BIOS File',
-                thBv: 'Boardview Schematic',
-                formHeaderTitle: '📥 Request Custom BIOS or Boardview',
-                formHeaderSub: 'Enter device details to request files directly via Telegram',
-                labelName: 'Your Name or Repair Shop:',
-                labelModel: 'Motherboard / Device Model:',
-                labelDesc: 'Request Description (BIOS, Boardview, etc):',
-                labelFile: 'Select File (Optional):',
-                filePromptText: '📁 Click here to select file from your device',
-                submitBtnText: 'Submit Request & Notify Admin',
-                successTitle: '✅ Request Sent Successfully!',
-                successDesc: 'Your request has been forwarded to Makram BIOS Fix. We will provide the files shortly.',
-                footerText: 'All Rights Reserved © 2026 - Makram BIOS Fix | Professional Platform'
-            }
-        };
-
         function updateFileName(input) {
             const display = document.getElementById('selectedFileName');
             if (input.files && input.files[0]) {
@@ -550,42 +200,50 @@
             }
         }
 
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            document.getElementById('biosRequestForm').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
+        // كود فتح وعمل اشتراك الـ VIP
+        function unlockVip() {
+            let code = document.getElementById('vipCodeInput').value;
+            if (code === "makramvip2026") { // كود اشتراك الـ VIP الخاص بك (يمكنك تغييره)
+                localStorage.setItem('makramVipUnlocked', 'true');
+                showVipContent(true);
+                alert("أهلاً بك في قسم الـ VIP! تم فتح المحتوى بنجاح.");
+            } else {
+                alert("كود الاشتراك غير صحيح! تواصل مع الإدارة للحصول على الكود.");
+            }
         }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            const t = translations[currentLang];
-            document.getElementById('htmlRoot').setAttribute('dir', t.dir);
-            document.getElementById('htmlRoot').setAttribute('lang', currentLang);
-            document.getElementById('langToggleBtn').innerText = t.toggleBtn;
-            document.getElementById('siteName').innerText = t.siteName;
-            document.getElementById('siteSub').innerText = t.siteSub;
-            document.getElementById('heroTitle').innerText = t.heroTitle;
-            document.getElementById('heroDesc').innerText = t.heroDesc;
-            
-            document.getElementById('libraryTitle').innerText = t.libraryTitle;
-            document.getElementById('librarySub').innerText = t.librarySub;
-            document.getElementById('thModel').innerText = t.thModel;
-            document.getElementById('thDesc').innerText = t.thDesc;
-            document.getElementById('thStatus').innerText = t.thStatus;
-            document.getElementById('thBios').innerText = t.thBios;
-            document.getElementById('thBv').innerText = t.thBv;
+        function lockVip() {
+            localStorage.removeItem('makramVipUnlocked');
+            showVipContent(false);
+        }
 
-            document.getElementById('formHeaderTitle').innerText = t.formHeaderTitle;
-            document.getElementById('formHeaderSub').innerText = t.formHeaderSub;
-            document.getElementById('labelName').innerText = t.labelName;
-            document.getElementById('labelModel').innerText = t.labelModel;
-            document.getElementById('labelDesc').innerText = t.labelDesc;
-            document.getElementById('labelFile').innerText = t.labelFile;
-            document.getElementById('filePromptText').innerText = t.filePromptText;
-            document.getElementById('submitBtnText').innerText = t.submitBtnText;
-            document.getElementById('successTitle').innerText = t.successTitle;
-            document.getElementById('successDesc').innerText = t.successDesc;
-            document.getElementById('footerText').innerText = t.footerText;
+        function showVipContent(unlocked) {
+            if (unlocked) {
+                document.getElementById('vipLockBox').style.display = 'none';
+                document.getElementById('vipContentBox').style.display = 'block';
+            } else {
+                document.getElementById('vipLockBox').style.display = 'block';
+                document.getElementById('vipContentBox').style.display = 'none';
+            }
+        }
+
+        window.onload = function() {
+            // جلب ملفات الجدول العام
+            let savedTable = localStorage.getItem('makramBiosTable');
+            if (savedTable) {
+                document.getElementById('publicTableBody').innerHTML = savedTable;
+            }
+
+            // جلب ملفات جدول الـ VIP المخصصة
+            let savedVipTable = localStorage.getItem('makramVipTable');
+            if (savedVipTable) {
+                document.getElementById('vipTableBody').innerHTML = savedVipTable;
+            }
+
+            // التحقق إذا كان المستخدم مسجل مسبقاً كـ VIP
+            if (localStorage.getItem('makramVipUnlocked') === 'true') {
+                showVipContent(true);
+            }
         }
     </script>
 </body>
