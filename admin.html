@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم المشرف | Makram BIOS Fix</title>
+    <title>بوابة إدارة المشرف | Makram BIOS Fix</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
+            --bg-color: #07090e;
             --card-bg: #111827;
             --accent-color: #38bdf8;
             --text-main: #f8fafc;
@@ -17,42 +17,127 @@
             --danger-color: #ef4444;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; }
-        .container { max-width: 950px; margin: 30px auto; background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        h2 { color: var(--vip-color); text-align: center; margin-bottom: 20px; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+
+        /* شاشة تسجيل الدخول العصرية */
+        #loginScreen {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(145deg, #111827, #0b0f19);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+        .login-logo {
+            width: 70px;
+            height: 70px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--vip-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+        }
+        #loginScreen h2 { color: var(--vip-color); font-size: 22px; margin-bottom: 8px; }
+        #loginScreen p { color: var(--text-muted); font-size: 13px; margin-bottom: 25px; }
+        .login-input {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .login-input:focus { border-color: var(--vip-color); box-shadow: 0 0 10px rgba(245,158,11,0.2); }
+        .login-btn {
+            width: 100%;
+            background-color: var(--vip-color);
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+        /* لوحة التحكم الفعلية (تظهر بعد الدخول) */
+        #adminDashboard {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .dash-header h2 { color: var(--vip-color); font-size: 20px; }
+        .logout-btn { background: transparent; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s; }
+        .logout-btn:hover { background-color: var(--danger-color); color: #fff; }
+
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .form-control { width: 100%; padding: 12px; background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; font-size: 14px; outline: none; }
         .form-control:focus { border-color: var(--vip-color); }
-        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: var(--text-muted); }
         .submit-btn { width: 100%; background-color: var(--vip-color); color: #000; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
         .submit-btn:hover { opacity: 0.85; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: var(--accent-color); text-decoration: none; font-weight: bold; }
+        .back-link { display: inline-block; margin-bottom: 15px; color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 13px; }
         
-        .bios-table { width: 100%; border-collapse: collapse; text-align: right; margin-top: 20px; }
+        .bios-table { width: 100%; border-collapse: collapse; text-align: right; margin-top: 15px; }
         .bios-table th, .bios-table td { padding: 12px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
         .bios-table th { background-color: rgba(245, 158, 11, 0.1); color: var(--vip-color); }
-        .delete-btn { background-color: var(--danger-color); color: #fff; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .delete-btn { background-color: var(--danger-color); color: #fff; padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <a href="index.html" class="back-link">&larr; العودة إلى الموقع الرئيسي</a>
-        <h2>⚙️ لوحة تحكم المشرف (Makram BIOS Fix)</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">أضف الملفات واختر ما إذا كانت ستنشر في "القسم العام" أو "قسم الـ VIP الحصري"</p>
+    <!-- 1. شاشة تسجيل الدخول العصرية (تم استبدال النافذة المنبثقة القديمة بها) -->
+    <div id="loginScreen">
+        <div class="login-logo">🔐</div>
+        <h2>لوحة تحكم المشرف</h2>
+        <p>Makram BIOS Fix - Security Portal</p>
+        <form onsubmit="handleLogin(event)">
+            <input type="password" id="adminPassInput" class="login-input" required placeholder="أدخل كلمة مرور المشرف...">
+            <button type="submit" class="login-btn">دخول آمن للوحة</button>
+        </form>
+        <br>
+        <a href="index.html" class="back-link">&larr; العودة للموقع الرئيسي</a>
+    </div>
+
+    <!-- 2. لوحة التحكم الفعلي بعد تسجيل الدخول -->
+    <div id="adminDashboard">
+        <div class="dash-header">
+            <h2>⚙️ إدارة منصة Makram BIOS Fix</h2>
+            <button onclick="logoutAdmin()" class="logout-btn">تسجيل الخروج</button>
+        </div>
+        
+        <a href="index.html" class="back-link">&larr; معاينة الموقع العام</a>
 
         <form onsubmit="addFile(event)">
             <div class="form-grid">
                 <div>
-                    <label>نوع النشر:</label>
+                    <label>قسم النشر:</label>
                     <select id="sectionType" class="form-control">
-                        <option value="public">📂 قسم عام (مجاني للكل)</option>
-                        <option value="vip">⭐ قسم VIP (للمشتركين فقط)</option>
+                        <option value="public">📂 القسم العام (مجاني)</option>
+                        <option value="vip">⭐ قسم VIP (حَصري)</option>
                     </select>
                 </div>
                 <div>
                     <label>موديل اللوحة / الجهاز:</label>
-                    <input type="text" id="model" class="form-control" required placeholder="مثال: HP ProBook">
+                    <input type="text" id="model" class="form-control" required placeholder="مثال: HP ProBook 450">
                 </div>
                 <div>
                     <label>وصف الإصدار:</label>
@@ -67,10 +152,10 @@
                     <input type="url" id="bvLink" class="form-control" required placeholder="https://...">
                 </div>
             </div>
-            <button type="submit" class="submit-btn">➕ نشر الملف في القسم المحدد</button>
+            <button type="submit" class="submit-btn">➕ نشر الملف في المنصة فوراً</button>
         </form>
 
-        <h3 style="margin-top: 40px; margin-bottom: 10px; color: var(--accent-color);">📋 الملفات العامة الحالية:</h3>
+        <h3 style="margin-top: 35px; margin-bottom: 10px; color: var(--accent-color); font-size: 16px;">📋 الملفات العامة الحالية:</h3>
         <div style="overflow-x: auto;">
             <table class="bios-table">
                 <thead>
@@ -80,7 +165,7 @@
             </table>
         </div>
 
-        <h3 style="margin-top: 40px; margin-bottom: 10px; color: var(--vip-color);">⭐ ملفات الـ VIP الحصرية الحالية:</h3>
+        <h3 style="margin-top: 35px; margin-bottom: 10px; color: var(--vip-color); font-size: 16px;">⭐ ملفات الـ VIP الحصرية الحالية:</h3>
         <div style="overflow-x: auto;">
             <table class="bios-table">
                 <thead>
@@ -92,15 +177,35 @@
     </div>
 
     <script>
+        // التحقق مما إذا كان المشرف مسجل دخول مسبقاً في الجلسة
         window.onload = function() {
-            let pass = prompt("أدخل كلمة مرور المشرف الخاصة بك:");
-            if (pass !== "makram123") {
-                alert("كلمة المرور خاطئة!");
-                window.location.href = "index.html";
-                return;
+            if (localStorage.getItem('makramAdminLogged') === 'true') {
+                showDashboard();
             }
-            loadTables();
         };
+
+        function handleLogin(event) {
+            event.preventDefault();
+            let pass = document.getElementById('adminPassInput').value;
+            if (pass === "makram123") {
+                localStorage.setItem('makramAdminLogged', 'true');
+                showDashboard();
+            } else {
+                alert("كلمة مرور المشرف غير صحيحة!");
+                document.getElementById('adminPassInput').value = '';
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'block';
+            loadTables();
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('makramAdminLogged');
+            location.reload();
+        }
 
         function loadTables() {
             let pubTable = localStorage.getItem('makramBiosTable');
@@ -140,7 +245,7 @@
             document.getElementById('desc').value = '';
             document.getElementById('biosLink').value = '';
             document.getElementById('bvLink').value = '';
-            alert("تمت الإضافة بنجاح ونشرها في القسم المخصص!");
+            alert("تمت الإضافة بنجاح ونشرها في المنصة!");
         }
 
         function saveTables() {
