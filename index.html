@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">VinaFix Arabic | إدارة ملفات البايوس والخدمات التقنية</title>
+    <title id="pageTitle">VinaFix Arabic | إدارة ملفات البايوس والبوردفيو</title>
     <meta name="google-site-verification" content="n_Nc-kHjqMlaYKi1d0qAejFuCA3M3KKFtNitHgbHAIE" />
     <style>
         :root {
@@ -14,8 +14,8 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #1f2937;
-            --telegram-color: #229ED9;
             --success-color: #22c55e;
+            --boardview-color: #f59e0b;
         }
         * {
             margin: 0;
@@ -63,7 +63,7 @@
             color: #000;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1150px;
             margin: 30px auto;
             padding: 0 20px;
         }
@@ -83,11 +83,9 @@
         .hero p {
             color: var(--text-muted);
             font-size: 14px;
-            margin-bottom: 20px;
         }
         
-        /* قسم نموذج الرفع المباشر الجديد */
-        .upload-section {
+        .section-box {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -95,18 +93,71 @@
             margin-bottom: 40px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
-        .upload-section h3 {
+        .section-box h3 {
             color: var(--accent-color);
             font-size: 22px;
             margin-bottom: 8px;
             text-align: center;
         }
-        .upload-section p.subtitle {
+        .section-box p.subtitle {
             text-align: center;
             color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 25px;
         }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .bios-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            margin-top: 10px;
+        }
+        .bios-table th, .bios-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .bios-table th {
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .bios-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        .download-btn {
+            background-color: var(--accent-color);
+            color: #0b0f19;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.3s;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        .download-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        .bv-btn {
+            background-color: var(--boardview-color);
+            color: #0b0f19;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .bv-btn:hover {
+            opacity: 0.85;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -115,7 +166,6 @@
             margin-bottom: 8px;
             font-weight: 600;
             font-size: 14px;
-            color: var(--text-main);
         }
         .form-control {
             width: 100%;
@@ -171,7 +221,6 @@
             background-color: var(--accent-hover);
         }
         
-        /* رسالة النجاح التفاعلية */
         .success-box {
             display: none;
             background-color: rgba(34, 197, 94, 0.1);
@@ -191,45 +240,6 @@
             font-size: 14px;
         }
 
-        .grid-sections {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-            transition: 0.3s;
-        }
-        .card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-5px);
-        }
-        .card h3 {
-            font-size: 20px;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-        .card p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        .action-link {
-            display: inline-block;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .action-link:hover {
-            color: var(--accent-hover);
-            text-decoration: underline;
-        }
         footer {
             text-align: center;
             padding: 25px;
@@ -245,71 +255,97 @@
     <header>
         <div class="logo-area">
             <h1 id="siteName">VinaFix Arabic</h1>
-            <p id="siteSub">المنصة العربية الاحترافية لإدارة وشحن البايوس</p>
+            <p id="siteSub">إشراف: Makram BIOS Fix | المنصة العربية المتكاملة</p>
         </div>
         <button class="lang-btn" onclick="toggleLanguage()" id="langToggleBtn">English</button>
     </header>
 
     <div class="container">
         
-        <!-- قسم الترحيب -->
         <div class="hero">
-            <h2 id="heroTitle">أهلاً بك في البوابة الرسمية لإدارة صيانة الحواسيب</h2>
-            <p id="heroDesc">ارفع ملف البايوس المعطل أو اطلب خدمتك مباشرة من الموقع بكل سهولة واحترافية.</p>
+            <h2 id="heroTitle">البوابة الرسمية لصيانة اللوحات الأم</h2>
+            <p id="heroDesc">مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وخدمة الطلبات المباشرة.</p>
         </div>
 
-        <!-- نموذج رفع الطلبات وملفات البايوس المباشر -->
-        <div class="upload-section">
-            <h3 id="formHeaderTitle">📥 ارفع ملف البايوس أو طلبك الآن</h3>
-            <p class="subtitle" id="formHeaderSub">أدخل تفاصيل جهازك وارفع الملف ليتم معالجته فوراً من قبل الإدارة</p>
+        <!-- مكتبة ملفات البايوس والبوردفيو -->
+        <div class="section-box">
+            <h3 id="libraryTitle">📂 مكتبة البايوس والبوردفيو المجربة</h3>
+            <p class="subtitle" id="librarySub">حمل ملفات البايوس ومخططات البوردفيو مباشرة بضغطة زر واحدة</p>
+            
+            <div class="table-responsive">
+                <table class="bios-table">
+                    <thead>
+                        <tr>
+                            <th id="thModel">موديل الجهاز / اللوحة الأم</th>
+                            <th id="thDesc">وصف الإصدار</th>
+                            <th id="thStatus">الحالة</th>
+                            <th id="thBios">ملف البايوس (BIOS)</th>
+                            <th id="thBv">مخطط البوردفيو (Boardview)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dell Latitude 5490</td>
+                            <td>Clean ME - Tested</td>
+                            <td style="color: var(--success-color);" id="st1">متوفر</td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn" id="dlBios1">تحميل البايوس</a></td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn" id="dlBv1">تحميل Boardview</a></td>
+                        </tr>
+                        <tr>
+                            <td>HP ProBook 450 G6</td>
+                            <td>Clear Password Dump</td>
+                            <td style="color: var(--success-color);" id="st2">متوفر</td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn" id="dlBios2">تحميل البايوس</a></td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn" id="dlBv2">تحميل Boardview</a></td>
+                        </tr>
+                        <tr>
+                            <td>Lenovo ThinkPad T480</td>
+                            <td>Original Dump I7</td>
+                            <td style="color: var(--success-color);" id="st3">متوفر</td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn" id="dlBios3">تحميل البايوس</a></td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn" id="dlBv3">تحميل Boardview</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- نموذج رفع الطلبات -->
+        <div class="section-box">
+            <h3 id="formHeaderTitle">📥 اطلب ملف بايوس أو بوردفيو خاص</h3>
+            <p class="subtitle" id="formHeaderSub">أدخل تفاصيل جهازك وارفع الملف أو اطلب المخطط ليصلك عبر تليجرام فوراً</p>
             
             <form id="biosRequestForm" onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label id="labelName" for="clientName">الاسم الكريم أو اسم المركز:</label>
-                    <input type="text" id="clientName" class="form-control" required placeholder="مثال: أحمد الصيانة">
+                    <input type="text" id="clientName" class="form-control" required placeholder="مثال: أحمد للصيانة">
                 </div>
 
                 <div class="form-group">
-                    <label id="labelModel" for="deviceModel">موديل اللوحة الأم / الجهاز (Motherboard Model):</label>
-                    <input type="text" id="deviceModel" class="form-control" required placeholder="مثال: Dell Latitude 5490 أو Gigabyte H310">
+                    <label id="labelModel" for="deviceModel">موديل اللوحة الأم / الجهاز:</label>
+                    <input type="text" id="deviceModel" class="form-control" required placeholder="مثال: Asus TUF Gaming A15">
                 </div>
 
                 <div class="form-group">
-                    <label id="labelDesc" for="problemDesc">وصف المشكلة / الطلب المطلوب:</label>
-                    <textarea id="problemDesc" class="form-control" required placeholder="مثال: الجهاز لا يعرض بيانات، يحتاج تفريغ ميكروباص أو إزالة باسورد..."></textarea>
+                    <label id="labelDesc" for="problemDesc">وصف الطلب (بايوس، بوردفيو، أو صيانة):</label>
+                    <textarea id="problemDesc" class="form-control" required placeholder="مثال: أطلب ملف بايوس وبوردفيو لهذه اللوحة..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label id="labelFile" for="biosFile">اختر ملف البايوس (.bin أو .rom):</label>
+                    <label id="labelFile" for="biosFile">اختر ملف البايوس (اختياري إن وجد):</label>
                     <div class="file-input-wrapper" onclick="document.getElementById('biosFile').click()">
                         <span id="filePromptText">📁 انقر هنا لاختيار ملف البايوس من جهازك</span>
-                        <input type="file" id="biosFile" accept=".bin,.rom,.hex,.zip,.rar" required onchange="updateFileName(this)">
+                        <input type="file" id="biosFile" accept=".bin,.rom,.hex,.zip,.rar,.brd" onchange="updateFileName(this)">
                         <div id="selectedFileName" class="file-name-display"></div>
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtnText">إرسال الطلب الآن</button>
+                <button type="submit" class="submit-btn" id="submitBtnText">إرسال الطلب وإشعار الإدارة</button>
             </form>
 
-            <!-- رسالة النجاح التفاعلية للزائر -->
             <div id="successMessage" class="success-box">
-                <h4 id="successTitle">✅ تم استلام طلبك بنجاح!</h4>
-                <p id="successDesc">تم إرسال الملف وبيانات الجهاز إلى الإدارة. طلبك الآن قيد المعالجة وسيتم فحصه وتجهيزه في أقرب وقت.</p>
-            </div>
-        </div>
-
-        <!-- الأقسام الإضافية -->
-        <div class="grid-sections">
-            <div class="card">
-                <h3 id="card1Title">📁 أحدث الملفات</h3>
-                <p id="card1Desc">أحدث ملفات البايوس الأصلية والمجربة للأجهزة والمصارف بشipsets المختلفة.</p>
-                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card1Link">استعرض الملفات &larr;</a>
-            </div>
-
-            <div class="card">
-                <h3 id="card2Title">⭐ خدمات VIP</h3>
-                <p id="card2Desc">طلبات التعديل الخاصة، تفريغ الأكواد، حل مشاكل الإيقاف وإلغاء قفل الحمايات.</p>
-                <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card2Link">اطلب خدمة VIP &larr;</a>
+                <h4 id="successTitle">✅ تم إرسال طلبك بنجاح!</h4>
+                <p id="successDesc">تم تحويل تفاصيل طلبك إلى إدارة Makram BIOS Fix بنجاح. سيتم توفير الملفات المطلوبة والرد عليك فوراً.</p>
             </div>
         </div>
 
@@ -326,50 +362,58 @@
                 dir: 'rtl',
                 toggleBtn: 'English',
                 siteName: 'VinaFix Arabic',
-                siteSub: 'المنصة العربية الاحترافية لإدارة وشحن البايوس',
-                heroTitle: 'أهلاً بك في البوابة الرسمية لإدارة صيانة الحواسيب',
-                heroDesc: 'ارفع ملف البايوس المعطل أو اطلب خدمتك مباشرة من الموقع بكل سهولة واحترافية.',
-                formHeaderTitle: '📥 ارفع ملف البايوس أو طلبك الآن',
-                formHeaderSub: 'أدخل تفاصيل جهازك وارفع الملف ليتم معالجته فوراً من قبل الإدارة',
+                siteSub: 'إشراف: Makram BIOS Fix | المنصة العربية المتكاملة',
+                heroTitle: 'البوابة الرسمية لصيانة اللوحات الأم',
+                heroDesc: 'مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وخدمة الطلبات المباشرة.',
+                libraryTitle: '📂 مكتبة البايوس والبوردفيو المجربة',
+                librarySub: 'حمل ملفات البايوس ومخططات البوردفيو مباشرة بضغطة زر واحدة',
+                thModel: 'موديل الجهاز / اللوحة الأم',
+                thDesc: 'وصف الإصدار',
+                thStatus: 'الحالة',
+                thBios: 'ملف البايوس (BIOS)',
+                thBv: 'مخطط البوردفيو (Boardview)',
+                st1: 'متوفر', st2: 'متوفر', st3: 'متوفر',
+                dlBios1: 'تحميل البايوس', dlBios2: 'تحميل البايوس', dlBios3: 'تحميل البايوس',
+                dlBv1: 'تحميل Boardview', dlBv2: 'تحميل Boardview', dlBv3: 'تحميل Boardview',
+                formHeaderTitle: '📥 اطلب ملف بايوس أو بوردفيو خاص',
+                formHeaderSub: 'أدخل تفاصيل جهازك وارفع الملف أو اطلب المخطط ليصلك عبر تليجرام فوراً',
                 labelName: 'الاسم الكريم أو اسم المركز:',
-                labelModel: 'موديل اللوحة الأم / الجهاز (Motherboard Model):',
-                labelDesc: 'وصف المشكلة / الطلب المطلوب:',
-                labelFile: 'اختر ملف البايوس (.bin أو .rom):',
+                labelModel: 'موديل اللوحة الأم / الجهاز:',
+                labelDesc: 'وصف الطلب (بايوس، بوردفيو، أو صيانة):',
+                labelFile: 'اختر ملف البايوس (اختياري إن وجد):',
                 filePromptText: '📁 انقر هنا لاختيار ملف البايوس من جهازك',
-                submitBtnText: 'إرسال الطلب الآن',
-                successTitle: '✅ تم استلام طلبك بنجاح!',
-                successDesc: 'تم إرسال الملف وبيانات الجهاز إلى الإدارة. طلبك الآن قيد المعالجة وسيتم فحصه وتجهيزه في أقرب وقت.',
-                card1Title: '📁 أحدث الملفات',
-                card1Desc: 'أحدث ملفات البايوس الأصلية والمجربة للأجهزة والمصارف بشipsets المختلفة.',
-                card1Link: 'استعرض الملفات ←',
-                card2Title: '⭐ خدمات VIP',
-                card2Desc: 'طلبات التعديل الخاصة، تفريغ الأكواد، حل مشاكل الإيقاف وإلغاء قفل الحمايات.',
-                card2Link: 'اطلب خدمة VIP ←',
+                submitBtnText: 'إرسال الطلب وإشعار الإدارة',
+                successTitle: '✅ تم إرسال طلبك بنجاح!',
+                successDesc: 'تم تحويل تفاصيل طلبك إلى إدارة Makram BIOS Fix بنجاح. سيتم توفير الملفات المطلوبة والرد عليك فوراً.',
                 footerText: 'جميع الحقوق محفوظة © 2026 - VinaFix Arabic | إشراف: Makram BIOS Fix'
             },
             en: {
                 dir: 'ltr',
                 toggleBtn: 'العربية',
                 siteName: 'VinaFix Arabic',
-                siteSub: 'Professional Arabic Platform for BIOS & Tech Services',
-                heroTitle: 'Welcome to the Official Computer Repair Portal',
-                heroDesc: 'Upload your damaged BIOS file or request your service directly from the site easily.',
-                formHeaderTitle: '📥 Upload BIOS File or Submit Request',
-                formHeaderSub: 'Enter your device details and upload the file for immediate processing',
+                siteSub: 'Supervised by: Makram BIOS Fix | Professional Platform',
+                heroTitle: 'Official Motherboard Repair Portal',
+                heroDesc: 'Tested BIOS and Boardview library with direct request system.',
+                libraryTitle: '📂 BIOS & Boardview Library',
+                librarySub: 'Download BIOS files and Boardview schematics directly with a single click',
+                thModel: 'Device / Motherboard Model',
+                thDesc: 'Description',
+                thStatus: 'Status',
+                thBios: 'BIOS File',
+                thBv: 'Boardview Schematic',
+                st1: 'Available', st2: 'Available', st3: 'Available',
+                dlBios1: 'Download BIOS', dlBios2: 'Download BIOS', dlBios3: 'Download BIOS',
+                dlBv1: 'Download Boardview', dlBv2: 'Download Boardview', dlBv3: 'Download Boardview',
+                formHeaderTitle: '📥 Request Custom BIOS or Boardview',
+                formHeaderSub: 'Enter device details to request files directly via Telegram',
                 labelName: 'Your Name or Repair Shop:',
                 labelModel: 'Motherboard / Device Model:',
-                labelDesc: 'Problem Description / Request:',
-                labelFile: 'Select BIOS File (.bin or .rom):',
-                filePromptText: '📁 Click here to select BIOS file from your device',
-                submitBtnText: 'Submit Request Now',
-                successTitle: '✅ Request Received Successfully!',
-                successDesc: 'Your file and device details have been submitted to management. Your request is now under review.',
-                card1Title: '📁 Latest Files',
-                card1Desc: 'Latest original and tested BIOS files for various motherboards and chipsets.',
-                card1Link: 'Browse Files →',
-                card2Title: '⭐ VIP Services',
-                card2Desc: 'Custom modification requests, clean ME regions, unlock and security bypass solutions.',
-                card2Link: 'Request VIP Service →',
+                labelDesc: 'Request Description (BIOS, Boardview, etc):',
+                labelFile: 'Select File (Optional):',
+                filePromptText: '📁 Click here to select file from your device',
+                submitBtnText: 'Submit Request & Notify Admin',
+                successTitle: '✅ Request Sent Successfully!',
+                successDesc: 'Your request has been forwarded to Makram BIOS Fix. We will provide the files shortly.',
                 footerText: 'All Rights Reserved © 2026 - VinaFix Arabic | Supervised by: Makram BIOS Fix'
             }
         };
@@ -382,9 +426,7 @@
         }
 
         function handleFormSubmit(event) {
-            event.preventDefault(); // منع إعادة تحميل الصفحة
-            
-            // إخفاء النموذج أو تعطيله وإظهار رسالة النجاح التفاعلية للزائر
+            event.preventDefault();
             document.getElementById('biosRequestForm').style.display = 'none';
             document.getElementById('successMessage').style.display = 'block';
         }
@@ -400,6 +442,24 @@
             document.getElementById('heroTitle').innerText = t.heroTitle;
             document.getElementById('heroDesc').innerText = t.heroDesc;
             
+            document.getElementById('libraryTitle').innerText = t.libraryTitle;
+            document.getElementById('librarySub').innerText = t.librarySub;
+            document.getElementById('thModel').innerText = t.thModel;
+            document.getElementById('thDesc').innerText = t.thDesc;
+            document.getElementById('thStatus').innerText = t.thStatus;
+            document.getElementById('thBios').innerText = t.thBios;
+            document.getElementById('thBv').innerText = t.thBv;
+            
+            document.getElementById('st1').innerText = t.st1;
+            document.getElementById('st2').innerText = t.st2;
+            document.getElementById('st3').innerText = t.st3;
+            document.getElementById('dlBios1').innerText = t.dlBios1;
+            document.getElementById('dlBios2').innerText = t.dlBios2;
+            document.getElementById('dlBios3').innerText = t.dlBios3;
+            document.getElementById('dlBv1').innerText = t.dlBv1;
+            document.getElementById('dlBv2').innerText = t.dlBv2;
+            document.getElementById('dlBv3').innerText = t.dlBv3;
+
             document.getElementById('formHeaderTitle').innerText = t.formHeaderTitle;
             document.getElementById('formHeaderSub').innerText = t.formHeaderSub;
             document.getElementById('labelName').innerText = t.labelName;
@@ -410,15 +470,6 @@
             document.getElementById('submitBtnText').innerText = t.submitBtnText;
             document.getElementById('successTitle').innerText = t.successTitle;
             document.getElementById('successDesc').innerText = t.successDesc;
-
-            document.getElementById('card1Title').innerText = t.card1Title;
-            document.getElementById('card1Desc').innerText = t.card1Desc;
-            document.querySelectorAll('.card1Link').forEach(el => el.innerText = t.card1Link);
-
-            document.getElementById('card2Title').innerText = t.card2Title;
-            document.getElementById('card2Desc').innerText = t.card2Desc;
-            document.querySelectorAll('.card2Link').forEach(el => el.innerText = t.card2Link);
-
             document.getElementById('footerText').innerText = t.footerText;
         }
     </script>
