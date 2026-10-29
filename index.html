@@ -134,7 +134,6 @@
         .vip-content { display: none; }
         .vip-badge { background-color: var(--vip-color); color: #000; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 6px; }
 
-        /* تنسيق خانة الموديل مع اللوجو التقني المصغر */
         .device-cell { display: flex; align-items: center; gap: 10px; }
         .brand-logo {
             width: 32px;
@@ -173,18 +172,16 @@
         }
         .download-btn { background-color: var(--accent-color); color: #07090e; }
         .download-btn:hover { background-color: var(--accent-hover); }
-        .download-btn svg { fill: #07090e; width: 14px; height: 14px; }
 
         .bv-btn { background-color: var(--vip-color); color: #07090e; }
         .bv-btn:hover { opacity: 0.85; }
-        .bv-btn svg { fill: #07090e; width: 14px; height: 14px; }
 
-        /* نافذة تسجيل الحساب */
+        /* نافذة الحسابات المنبثقة الاحترافية */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(5px);
             z-index: 2000;
             justify-content: center;
@@ -196,12 +193,30 @@
             padding: 30px;
             border-radius: 16px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
         }
-        .modal-box h3 { color: var(--accent-color); margin-bottom: 15px; font-size: 20px; }
-        .modal-box p { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; }
+        .modal-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .modal-tab {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .modal-tab.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
         .form-control {
             width: 100%;
             padding: 12px 16px;
@@ -268,22 +283,37 @@
         </div>
         <div class="header-actions">
             <div id="userAccountArea">
-                <button class="auth-btn" onclick="openAuthModal()">👤 تسجيل / إنشاء حساب</button>
+                <button class="auth-btn" onclick="openAuthModal('login')">👤 تسجيل الدخول</button>
             </div>
             <a href="admin.html" class="admin-link">⚙️ لوحة المشرف</a>
         </div>
     </header>
 
-    <!-- نافذة تسجيل الحساب المنبثقة -->
+    <!-- نافذة تسجيل الحساب / إنشاء حساب الاحترافية -->
     <div id="authModal" class="modal-overlay">
         <div class="modal-box">
-            <h3>إنشاء حساب مجاني أو تسجيل الدخول</h3>
-            <p>لتحميل الملفات والمخططات من المنصة، يرجى إدخال اسم المستخدم وكلمة المرور:</p>
-            <form onsubmit="handleUserAuth(event)">
-                <input type="text" id="usernameInput" class="form-control" required placeholder="اسم المستخدم أو البريد...">
-                <input type="password" id="passwordInput" class="form-control" required placeholder="كلمة المرور...">
-                <button type="submit" class="submit-btn">دخول / تسجيل حساب</button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="tabLoginBtn" onclick="switchTab('login')">تسجيل الدخول</button>
+                <button class="modal-tab" id="tabRegisterBtn" onclick="switchTab('register')">إنشاء حساب جديد</button>
+            </div>
+
+            <!-- نموذج تسجيل الدخول -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">أدخل بيانات حسابك لتحميل الملفات:</p>
+                <input type="email" id="loginEmail" class="form-control" required placeholder="البريد الإلكتروني...">
+                <input type="password" id="loginPass" class="form-control" required placeholder="كلمة المرور...">
+                <button type="submit" class="submit-btn">تسجيل الدخول</button>
             </form>
+
+            <!-- نموذج إنشاء حساب جديد -->
+            <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">أنشئ حساباً مجانياً جديداً للوصول للملفات:</p>
+                <input type="text" id="regName" class="form-control" required placeholder="اسم المستخدم أو المركز...">
+                <input type="email" id="regEmail" class="form-control" required placeholder="البريد الإلكتروني...">
+                <input type="password" id="regPass" class="form-control" required placeholder="كلمة المرور الجديدة...">
+                <button type="submit" class="submit-btn" style="background: linear-gradient(135deg, var(--vip-color), #d97706); color: #000;">إنشاء الحساب الآن</button>
+            </form>
+
             <button class="close-modal" onclick="closeAuthModal()">إلغاء وإغلاق</button>
         </div>
     </div>
@@ -297,7 +327,7 @@
         <!-- 1. مكتبة الملفات العامة -->
         <div class="section-box">
             <h3>📂 مكتبة تفريغات البايوس والمخططات المتاحة</h3>
-            <p class="subtitle">يجب تسجيل الدخول بحساب مجاني لتحميل الملفات بضغطة زر</p>
+            <p class="subtitle">يجب إنشاء حساب وتسجيل الدخول لتحميل الملفات</p>
             
             <div class="search-box-wrapper">
                 <svg class="search-icon" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/></svg>
@@ -325,8 +355,8 @@
                             </td>
                             <td>Clean ME Region - Tested 100% (I5 Gen 8)</td>
                             <td style="color: var(--success-color); font-weight: 600;">متوفر ومختبر</td>
-                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn download-btn"><svg viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>تحميل BIOS</button></td>
-                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn bv-btn"><svg viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>Boardview .brd</button></td>
+                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn download-btn">تحميل BIOS</button></td>
+                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn bv-btn">Boardview .brd</button></td>
                         </tr>
                         <tr>
                             <td>
@@ -337,8 +367,8 @@
                             </td>
                             <td>Clear Password & ME Deployed</td>
                             <td style="color: var(--success-color); font-weight: 600;">متوفر ومختبر</td>
-                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn download-btn"><svg viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>تحميل BIOS</button></td>
-                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn bv-btn"><svg viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>Boardview .cad</button></td>
+                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn download-btn">تحميل BIOS</button></td>
+                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn bv-btn">Boardview .cad</button></td>
                         </tr>
                         <tr>
                             <td>
@@ -349,8 +379,8 @@
                             </td>
                             <td>Computrace Permanently Killed & Bios Unlocked</td>
                             <td style="color: var(--success-color); font-weight: 600;">متوفر ومختبر</td>
-                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn download-btn"><svg viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>تحميل BIOS</button></td>
-                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn bv-btn"><svg viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>Boardview .cst</button></td>
+                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn download-btn">تحميل BIOS</button></td>
+                            <td><button onclick="checkDownload('https://t.me/MAKRAMBIOSFIX_OFFICIAL')" class="action-btn bv-btn">Boardview .cst</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -444,24 +474,75 @@
     <script>
         let isUserLoggedIn = false;
 
-        function openAuthModal() {
+        function openAuthModal(tab = 'login') {
             document.getElementById('authModal').style.display = 'flex';
+            switchTab(tab);
         }
 
         function closeAuthModal() {
             document.getElementById('authModal').style.display = 'none';
         }
 
-        function handleUserAuth(event) {
+        function switchTab(tab) {
+            let loginForm = document.getElementById('loginForm');
+            let regForm = document.getElementById('registerForm');
+            let tabLoginBtn = document.getElementById('tabLoginBtn');
+            let tabRegisterBtn = document.getElementById('tabRegisterBtn');
+
+            if(tab === 'login') {
+                loginForm.style.display = 'block';
+                regForm.style.display = 'none';
+                tabLoginBtn.classList.add('active');
+                tabRegisterBtn.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                regForm.style.display = 'block';
+                tabRegisterBtn.classList.add('active');
+                tabLoginBtn.classList.remove('active');
+            }
+        }
+
+        // تسجيل حساب جديد وحفظه في المتصفح
+        function handleRegister(event) {
             event.preventDefault();
-            let username = document.getElementById('usernameInput').value;
-            if(username) {
+            let name = document.getElementById('regName').value;
+            let email = document.getElementById('regEmail').value;
+            let pass = document.getElementById('regPass').value;
+
+            if(name && email && pass) {
+                // حفظ البيانات محلياً
+                localStorage.setItem('makramUserEmail', email);
+                localStorage.setItem('makramUserPass', pass);
+                localStorage.setItem('makramUsername', name);
                 localStorage.setItem('makramUserLoggedIn', 'true');
-                localStorage.setItem('makramUsername', username);
+
                 isUserLoggedIn = true;
-                updateUserUI(username);
+                updateUserUI(name);
                 closeAuthModal();
-                alert("مرحباً بك " + username + "! تم تسجيل الدخول بنجاح، يمكنك الآن تحميل الملفات.");
+                alert("تم إنشاء الحساب بنجاح وتم تسجيل دخولك تلقائياً يا " + name + "!");
+            }
+        }
+
+        // تسجيل الدخول بحساب موجود مسبقاً
+        function handleLogin(event) {
+            event.preventDefault();
+            let email = document.getElementById('loginEmail').value;
+            let pass = document.getElementById('loginPass').value;
+
+            let savedEmail = localStorage.getItem('makramUserEmail');
+            let savedPass = localStorage.getItem('makramUserPass');
+            let savedName = localStorage.getItem('makramUsername') || email;
+
+            // التحقق (إذا لم يكن هناك حساب مسجل مسبقاً، نسمح له بالدخول كحساب افتراضي جديد أو نتحقق من البيانات)
+            if (!savedEmail || (email === savedEmail && pass === savedPass)) {
+                localStorage.setItem('makramUserLoggedIn', 'true');
+                localStorage.setItem('makramUsername', savedName);
+                isUserLoggedIn = true;
+                updateUserUI(savedName);
+                closeAuthModal();
+                alert("أهلاً بك مجدداً! تم تسجيل دخولك بنجاح.");
+            } else {
+                alert("البريد الإلكتروني أو كلمة المرور غير صحيحة! يرجى التحقق أو إنشاء حساب جديد.");
             }
         }
 
@@ -474,16 +555,15 @@
 
         function logoutUser() {
             localStorage.removeItem('makramUserLoggedIn');
-            localStorage.removeItem('makramUsername');
             isUserLoggedIn = false;
-            document.getElementById('userAccountArea').innerHTML = `<button class="auth-btn" onclick="openAuthModal()">👤 تسجيل / إنشاء حساب</button>`;
+            document.getElementById('userAccountArea').innerHTML = `<button class="auth-btn" onclick="openAuthModal('login')">👤 تسجيل الدخول</button>`;
             alert("تم تسجيل الخروج بنجاح.");
         }
 
         function checkDownload(url) {
             if (!isUserLoggedIn) {
-                alert("عذراً، يجب عليك تسجيل الدخول أو إنشاء حساب مجاني أولاً لتمكين تحميل الملفات!");
-                openAuthModal();
+                alert("عذراً، يجب عليك إنشاء حساب أو تسجيل الدخول أولاً لتحميل الملفات!");
+                openAuthModal('register'); // يفتحه مباشرة على إنشاء حساب ليكون الأمر منطقياً للزائر الجديد
             } else {
                 window.open(url, '_blank');
             }
@@ -518,8 +598,8 @@
 
         function unlockVip() {
             if (!isUserLoggedIn) {
-                alert("يرجى تسجيل الدخول بحساب أولاً قبل محاولة فتح قسم الـ VIP!");
-                openAuthModal();
+                alert("يرجى تسجيل الدخول أو إنشاء حساب أولاً قبل محاولة فتح قسم الـ VIP!");
+                openAuthModal('login');
                 return;
             }
             let code = document.getElementById('vipCodeInput').value;
@@ -549,7 +629,7 @@
         window.onload = function() {
             if (localStorage.getItem('makramUserLoggedIn') === 'true') {
                 isUserLoggedIn = true;
-                updateUserUI(localStorage.getItem('makramUsername'));
+                updateUserUI(localStorage.getItem('makramUsername') || 'عضو المنصة');
             }
 
             let savedTable = localStorage.getItem('makramBiosTable');
