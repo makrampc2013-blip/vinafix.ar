@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">VinaFix Arabic | إدارة ملفات البايوس والخدمات التقنية</title>
-    <!-- كود إثبات ملكية جوجل -->
-    <meta name="google-site-verification" content="google347658b798f7c57a" />
+    <!-- كود إثبات ملكية جوجل الجديد -->
+    <meta name="google-site-verification" content="KHjqMlaYKi1d0qAejFuCA3M3KKFtNitHgbHAIE" />
     <style>
         :root {
             --bg-color: #0b0f19;
@@ -174,37 +174,31 @@
             </a>
         </div>
 
-        <!-- الأقسام الأربعة الاحترافية -->
+        <!-- الأقسام الأربعة -->
         <div class="grid-sections">
-            
-            <!-- قسم ملفات البايوس -->
             <div class="card">
                 <h3 id="card1Title">📁 ملفات البايوس</h3>
                 <p id="card1Desc">أحدث ملفات البايوس الأصلية والمجربة للأجهزة والمصارف بشipsets المختلفة.</p>
                 <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card1Link">استعرض الملفات &larr;</a>
             </div>
 
-            <!-- قسم الـ VIP -->
             <div class="card">
                 <h3 id="card2Title">⭐ خدمات VIP</h3>
                 <p id="card2Desc">طلبات التعديل الخاصة، تفريغ الأكواد، حل مشاكل الإيقاف وإلغاء قفل الحمايات.</p>
                 <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card2Link">اطلب خدمة VIP &larr;</a>
             </div>
 
-            <!-- قسم التواصل والطلبات -->
             <div class="card">
                 <h3 id="card3Title">💬 التواصل والطلبات</h3>
                 <p id="card3Desc">قناة الطلبات المباشرة، اترك استفسارك أو ملفك المعطل ليتم فحصه ومعالجته بدقة.</p>
                 <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card3Link">أرسل طلبك &larr;</a>
             </div>
 
-            <!-- قسم الاشتراك -->
             <div class="card">
                 <h3 id="card4Title">💳 الاشتراكات والدعم</h3>
                 <p id="card4Desc">باقات العضوية والدعم الفني المستمر لأصحاب مراكز الصيانة والمهندسين.</p>
                 <a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="action-link card4Link">عرض الباقات &larr;</a>
             </div>
-
         </div>
 
     </div>
@@ -215,7 +209,6 @@
 
     <script>
         let currentLang = 'ar';
-
         const translations = {
             ar: {
                 dir: 'rtl',
@@ -266,16 +259,14 @@
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             const t = translations[currentLang];
-
             document.getElementById('htmlRoot').setAttribute('dir', t.dir);
             document.getElementById('htmlRoot').setAttribute('lang', currentLang);
-            document.getElementById('langToggleBtninnerText' || 'langToggleBtn').innerText = t.toggleBtn;
+            document.getElementById('langToggleBtn').innerText = t.toggleBtn;
             document.getElementById('siteName').innerText = t.siteName;
             document.getElementById('siteSub').innerText = t.siteSub;
             document.getElementById('heroTitle').innerText = t.heroTitle;
             document.getElementById('heroDesc').innerText = t.heroDesc;
             
-            // تحديث زر التيليجرام مع الحفاظ على الأيقونة
             const tgBtn = document.getElementById('telegramBtnText');
             tgBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-2.01 1.28-5.69 3.77-.54.37-1.03.55-1.47.54-.48-.01-1.4-.27-2.08-.49-.84-.27-1.51-.42-1.45-.89.03-.25.38-.51 1.07-.78 4.2-1.83 7-3.03 8.41-3.61 4-.1.66 4.98 1.47 5.16 1.02.11.19.04.28-.02.08-.07.17-.18.23-.33z"/></svg> ${t.telegramBtn}`;
 
