@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">VinaFix Arabic | إدارة ملفات البايوس والبوردفيو</title>
+    <title id="pageTitle">Makram BIOS Fix | المنصة العربية المتكاملة</title>
     <meta name="google-site-verification" content="n_Nc-kHjqMlaYKi1d0qAejFuCA3M3KKFtNitHgbHAIE" />
     <style>
         :root {
@@ -16,6 +16,7 @@
             --border-color: #1f2937;
             --success-color: #22c55e;
             --boardview-color: #f59e0b;
+            --danger-color: #ef4444;
         }
         * {
             margin: 0;
@@ -47,7 +48,11 @@
             font-size: 12px;
             color: var(--text-muted);
         }
-        .lang-btn {
+        .header-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-custom {
             background-color: var(--border-color);
             color: var(--text-main);
             border: 1px solid var(--accent-color);
@@ -58,8 +63,16 @@
             font-size: 14px;
             transition: 0.3s;
         }
-        .lang-btn:hover {
+        .btn-custom:hover {
             background-color: var(--accent-color);
+            color: #000;
+        }
+        .admin-btn {
+            border-color: var(--boardview-color);
+            color: var(--boardview-color);
+        }
+        .admin-btn:hover {
+            background-color: var(--boardview-color);
             color: #000;
         }
         .container {
@@ -104,6 +117,19 @@
             color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 25px;
+        }
+
+        /* لوحة التحكم الخاصة بالمشرف */
+        #adminPanel {
+            display: none;
+            border: 2px dashed var(--boardview-color);
+            background-color: rgba(245, 158, 11, 0.03);
+        }
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .table-responsive {
@@ -156,6 +182,19 @@
         }
         .bv-btn:hover {
             opacity: 0.85;
+        }
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: #fff;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .delete-btn:hover {
+            opacity: 0.8;
         }
 
         .form-group {
@@ -254,17 +293,48 @@
 
     <header>
         <div class="logo-area">
-            <h1 id="siteName">VinaFix Arabic</h1>
-            <p id="siteSub">إشراف: Makram BIOS Fix | المنصة العربية المتكاملة</p>
+            <h1 id="siteName">Makram BIOS Fix</h1>
+            <p id="siteSub">المنصة العربية الاحترافية لصيانة اللوحات الأم والبايوس</p>
         </div>
-        <button class="lang-btn" onclick="toggleLanguage()" id="langToggleBtn">English</button>
+        <div class="header-btns">
+            <button class="btn-custom admin-btn" onclick="toggleAdminPanel()">🔐 دخول المشرف</button>
+            <button class="btn-custom" onclick="toggleLanguage()" id="langToggleBtn">English</button>
+        </div>
     </header>
 
     <div class="container">
         
         <div class="hero">
             <h2 id="heroTitle">البوابة الرسمية لصيانة اللوحات الأم</h2>
-            <p id="heroDesc">مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وخدمة الطلبات المباشرة.</p>
+            <p id="heroDesc">مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وإدارة الطلبات المباشرة.</p>
+        </div>
+
+        <!-- 🔐 لوحة التحكم الخاصة بالمشرف (مخفية تفتح بكلمة مرور) -->
+        <div class="section-box" id="adminPanel">
+            <h3 style="color: var(--boardview-color);">⚙️ لوحة تحكم المشرف (Makram BIOS Fix Admin)</h3>
+            <p class="subtitle">أضف ملفات جديدة للجدول أو احذف الموجودة بكل سهولة مباشرة من متصفحك</p>
+            
+            <form onsubmit="addFileToTable(event)">
+                <div class="admin-form-grid">
+                    <div>
+                        <label>موديل الجهاز / اللوحة:</label>
+                        <input type="text" id="newModel" class="form-control" required placeholder="مثال: Dell 5490">
+                    </div>
+                    <div>
+                        <label>وصف الإصدار:</label>
+                        <input type="text" id="newDesc" class="form-control" required placeholder="مثال: Clean ME Tested">
+                    </div>
+                    <div>
+                        <label>رابط تحميل البايوس:</label>
+                        <input type="url" id="newBiosLink" class="form-control" required placeholder="https://...">
+                    </div>
+                    <div>
+                        <label>رابط تحميل Boardview:</label>
+                        <input type="url" id="newBvLink" class="form-control" required placeholder="https://...">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn" style="background-color: var(--boardview-color); color: #000;">➕ إضافة الملف للجدول فوراً</button>
+            </form>
         </div>
 
         <!-- مكتبة ملفات البايوس والبوردفيو -->
@@ -281,29 +351,18 @@
                             <th id="thStatus">الحالة</th>
                             <th id="thBios">ملف البايوس (BIOS)</th>
                             <th id="thBv">مخطط البوردفيو (Boardview)</th>
+                            <th id="thControl" style="display:none;" id="adminTh">إدارة المشرف</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="biosTableBody">
+                        <!-- البيانات الافتراضية -->
                         <tr>
                             <td>Dell Latitude 5490</td>
                             <td>Clean ME - Tested</td>
-                            <td style="color: var(--success-color);" id="st1">متوفر</td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn" id="dlBios1">تحميل البايوس</a></td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn" id="dlBv1">تحميل Boardview</a></td>
-                        </tr>
-                        <tr>
-                            <td>HP ProBook 450 G6</td>
-                            <td>Clear Password Dump</td>
-                            <td style="color: var(--success-color);" id="st2">متوفر</td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn" id="dlBios2">تحميل البايوس</a></td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn" id="dlBv2">تحميل Boardview</a></td>
-                        </tr>
-                        <tr>
-                            <td>Lenovo ThinkPad T480</td>
-                            <td>Original Dump I7</td>
-                            <td style="color: var(--success-color);" id="st3">متوفر</td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn" id="dlBios3">تحميل البايوس</a></td>
-                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn" id="dlBv3">تحميل Boardview</a></td>
+                            <td style="color: var(--success-color);">متوفر</td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="download-btn">تحميل البايوس</a></td>
+                            <td><a href="https://t.me/MAKRAMBIOSFIX_OFFICIAL" target="_blank" class="bv-btn">تحميل Boardview</a></td>
+                            <td class="admin-col" style="display:none;"><button class="delete-btn" onclick="this.closest('tr').remove(); saveTableData();">حذف</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -352,19 +411,91 @@
     </div>
 
     <footer>
-        <p id="footerText">جميع الحقوق محفوظة © 2026 - VinaFix Arabic | إشراف: Makram BIOS Fix</p>
+        <p id="footerText">جميع الحقوق محفوظة © 2026 - Makram BIOS Fix | المنصة العربية المتكاملة</p>
     </footer>
 
     <script>
+        let isAdminLoggedIn = false;
+
+        function toggleAdminPanel() {
+            if (!isAdminLoggedIn) {
+                let pass = prompt("أدخل كلمة مرور المشرف الخاصة بك:");
+                if (pass === "makram123") { // كلمة المرور الخاصة بك (يمكنك تغييرها لاحقاً)
+                    isAdminLoggedIn = true;
+                    document.getElementById('adminPanel').style.display = 'block';
+                    showAdminColumns(true);
+                    alert("مرحباً بك يا مكرم! تم تفعيل لوحة التحكم.");
+                } else if (pass !== null) {
+                    alert("كلمة المرور غير صحيحة!");
+                }
+            } else {
+                isAdminLoggedIn = false;
+                document.getElementById('adminPanel').style.display = 'none';
+                showAdminColumns(false);
+            }
+        }
+
+        function showAdminColumns(show) {
+            let cols = document.querySelectorAll('.admin-col');
+            cols.forEach(el => el.style.display = show ? 'table-cell' : 'none');
+            let adminTh = document.getElementById('adminTh');
+            if(adminTh) adminTh.style.display = show ? 'table-cell' : 'none';
+        }
+
+        function addFileToTable(event) {
+            event.preventDefault();
+            let model = document.getElementById('newModel').value;
+            let desc = document.getElementById('newDesc').value;
+            let biosLink = document.getElementById('newBiosLink').value;
+            let bvLink = document.getElementById('newBvLink').value;
+
+            let tbody = document.getElementById('biosTableBody');
+            let newRow = document.createElement('tr');
+            
+            let displayStyle = isAdminLoggedIn ? 'table-cell' : 'none';
+
+            newRow.innerHTML = `
+                <td>${model}</td>
+                <td>${desc}</td>
+                <td style="color: var(--success-color);">متوفر</td>
+                <td><a href="${biosLink}" target="_blank" class="download-btn">تحميل البايوس</a></td>
+                <td><a href="${bvLink}" target="_blank" class="bv-btn">تحميل Boardview</a></td>
+                <td class="admin-col" style="display:${displayStyle};"><button class="delete-btn" onclick="this.closest('tr').remove(); saveTableData();">حذف</button></td>
+            `;
+
+            tbody.appendChild(newRow);
+            saveTableData();
+            
+            // تفريغ الحقول
+            document.getElementById('newModel').value = '';
+            document.getElementById('newDesc').value = '';
+            document.getElementById('newBiosLink').value = '';
+            document.getElementById('newBvLink').value = '';
+            alert("تمت الإضافة بنجاح وتحديث الجدول!");
+        }
+
+        function saveTableData() {
+            // حفظ البيانات محلياً بحيث تبقى ظاهرة على متصفحك
+            localStorage.setItem('makramBiosTable', document.getElementById('biosTableBody').innerHTML);
+        }
+
+        window.onload = function() {
+            let savedTable = localStorage.getItem('makramBiosTable');
+            if (savedTable) {
+                document.getElementById('biosTableBody').innerHTML = savedTable;
+                showAdminColumns(false);
+            }
+        };
+
         let currentLang = 'ar';
         const translations = {
             ar: {
                 dir: 'rtl',
                 toggleBtn: 'English',
-                siteName: 'VinaFix Arabic',
-                siteSub: 'إشراف: Makram BIOS Fix | المنصة العربية المتكاملة',
+                siteName: 'Makram BIOS Fix',
+                siteSub: 'المنصة العربية الاحترافية لصيانة اللوحات الأم والبايوس',
                 heroTitle: 'البوابة الرسمية لصيانة اللوحات الأم',
-                heroDesc: 'مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وخدمة الطلبات المباشرة.',
+                heroDesc: 'مكتبة ملفات البايوس والبوردفيو (Boardview) المجربة، وإدارة الطلبات المباشرة.',
                 libraryTitle: '📂 مكتبة البايوس والبوردفيو المجربة',
                 librarySub: 'حمل ملفات البايوس ومخططات البوردفيو مباشرة بضغطة زر واحدة',
                 thModel: 'موديل الجهاز / اللوحة الأم',
@@ -372,9 +503,6 @@
                 thStatus: 'الحالة',
                 thBios: 'ملف البايوس (BIOS)',
                 thBv: 'مخطط البوردفيو (Boardview)',
-                st1: 'متوفر', st2: 'متوفر', st3: 'متوفر',
-                dlBios1: 'تحميل البايوس', dlBios2: 'تحميل البايوس', dlBios3: 'تحميل البايوس',
-                dlBv1: 'تحميل Boardview', dlBv2: 'تحميل Boardview', dlBv3: 'تحميل Boardview',
                 formHeaderTitle: '📥 اطلب ملف بايوس أو بوردفيو خاص',
                 formHeaderSub: 'أدخل تفاصيل جهازك وارفع الملف أو اطلب المخطط ليصلك عبر تليجرام فوراً',
                 labelName: 'الاسم الكريم أو اسم المركز:',
@@ -385,13 +513,13 @@
                 submitBtnText: 'إرسال الطلب وإشعار الإدارة',
                 successTitle: '✅ تم إرسال طلبك بنجاح!',
                 successDesc: 'تم تحويل تفاصيل طلبك إلى إدارة Makram BIOS Fix بنجاح. سيتم توفير الملفات المطلوبة والرد عليك فوراً.',
-                footerText: 'جميع الحقوق محفوظة © 2026 - VinaFix Arabic | إشراف: Makram BIOS Fix'
+                footerText: 'جميع الحقوق محفوظة © 2026 - Makram BIOS Fix | المنصة العربية المتكاملة'
             },
             en: {
                 dir: 'ltr',
                 toggleBtn: 'العربية',
-                siteName: 'VinaFix Arabic',
-                siteSub: 'Supervised by: Makram BIOS Fix | Professional Platform',
+                siteName: 'Makram BIOS Fix',
+                siteSub: 'Professional Arabic Platform for Motherboard & BIOS Repair',
                 heroTitle: 'Official Motherboard Repair Portal',
                 heroDesc: 'Tested BIOS and Boardview library with direct request system.',
                 libraryTitle: '📂 BIOS & Boardview Library',
@@ -401,9 +529,6 @@
                 thStatus: 'Status',
                 thBios: 'BIOS File',
                 thBv: 'Boardview Schematic',
-                st1: 'Available', st2: 'Available', st3: 'Available',
-                dlBios1: 'Download BIOS', dlBios2: 'Download BIOS', dlBios3: 'Download BIOS',
-                dlBv1: 'Download Boardview', dlBv2: 'Download Boardview', dlBv3: 'Download Boardview',
                 formHeaderTitle: '📥 Request Custom BIOS or Boardview',
                 formHeaderSub: 'Enter device details to request files directly via Telegram',
                 labelName: 'Your Name or Repair Shop:',
@@ -414,7 +539,7 @@
                 submitBtnText: 'Submit Request & Notify Admin',
                 successTitle: '✅ Request Sent Successfully!',
                 successDesc: 'Your request has been forwarded to Makram BIOS Fix. We will provide the files shortly.',
-                footerText: 'All Rights Reserved © 2026 - VinaFix Arabic | Supervised by: Makram BIOS Fix'
+                footerText: 'All Rights Reserved © 2026 - Makram BIOS Fix | Professional Platform'
             }
         };
 
@@ -449,16 +574,6 @@
             document.getElementById('thStatus').innerText = t.thStatus;
             document.getElementById('thBios').innerText = t.thBios;
             document.getElementById('thBv').innerText = t.thBv;
-            
-            document.getElementById('st1').innerText = t.st1;
-            document.getElementById('st2').innerText = t.st2;
-            document.getElementById('st3').innerText = t.st3;
-            document.getElementById('dlBios1').innerText = t.dlBios1;
-            document.getElementById('dlBios2').innerText = t.dlBios2;
-            document.getElementById('dlBios3').innerText = t.dlBios3;
-            document.getElementById('dlBv1').innerText = t.dlBv1;
-            document.getElementById('dlBv2').innerText = t.dlBv2;
-            document.getElementById('dlBv3').innerText = t.dlBv3;
 
             document.getElementById('formHeaderTitle').innerText = t.formHeaderTitle;
             document.getElementById('formHeaderSub').innerText = t.formHeaderSub;
