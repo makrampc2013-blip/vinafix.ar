@@ -1,88 +1,24 @@
-function sendOrderWithFileToTelegram(event) {
-    event.preventDefault();
+        <!-- 3. نموذج الطلبات المباشر عبر تيليجرام (مستقر 100%) -->
+        <div class="section-box">
+            <h3 id="reqTitle">📥 طلب تعديل ملف أو إرسال دمب صيانة خاص</h3>
+            <p class="subtitle" id="reqSub">أدخل تفاصيل اللوحة الأم واضغط إرسال ليتم تحويلك فوراً إلى بوت تليجرام</p>
+            
+            <form onsubmit="sendOrderDirectToTelegram(event)">
+                <div class="form-group">
+                    <label id="lblClientName">اسم الفني أو المركز التقني:</label>
+                    <input type="text" id="clientName" class="form-control" required placeholder="مثال: مركز مكرم للصيانة">
+                </div>
+                
+                <div class="form-group">
+                    <label id="lblDeviceModel">رقم موديل البوردة الدقيق (Board Number):</label>
+                    <input type="text" id="deviceModel" class="form-control" required placeholder="مثال: DA0AM6MB8D0">
+                </div>
+                
+                <div class="form-group">
+                    <label id="lblMessage">تفاصيل المشكلة أو الخدمة المطلوبة:</label>
+                    <textarea id="orderMessage" class="form-control" required placeholder="اكتب تفاصيل الإصلاح أو التعديل المطلوب..."></textarea>
+                </div>
 
-    const botToken = "9172822946:AAHA_nvv0_deRc6YI1Wby13_wdLtOwkn8ms"; 
-    const chatId = "6983424659"; // شاتك الخاص حصراً
-
-    let clientName = document.getElementById('clientName').value;
-    let deviceModel = document.getElementById('deviceModel').value;
-    let messageText = document.getElementById('orderMessage').value;
-    let fileInput = document.getElementById('biosFile');
-
-    let submitBtn = document.getElementById('submitOrderBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = currentLang === 'ar' ? "جاري الرفع والإرسال..." : "Uploading & Sending...";
-
-    if (fileInput.files && fileInput.files[0]) {
-        let formData = new FormData();
-        formData.append('chat_id', chatId);
-        formData.append('document', fileInput.files[0]);
-        formData.append('caption', `🚨 *طلب صيانة جديد مع ملف مرفق!*\n\n👤 *المركز/الفني:* ${clientName}\n💻 *الموديل:* ${deviceModel}\n📝 *التفاصيل:* ${messageText}`);
-
-        let url = `https://api.telegram.org/bot${botToken}/sendDocument`;
-
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
-
-            if (data.ok) {
-                alert(currentLang === 'ar' ? "تم إرسال الطلب وملف البايوس بنجاح إلى تيليجرام!" : "Order and file sent successfully!");
-                document.getElementById('clientName').value = '';
-                document.getElementById('deviceModel').value = '';
-                document.getElementById('orderMessage').value = '';
-                fileInput.value = '';
-                document.getElementById('fileNameDisplay').innerText = '';
-            } else {
-                alert((currentLang === 'ar' ? "خطأ من تيليجرام: " : "Telegram Error: ") + (data.description || "تأكد من الاتصال."));
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
-            alert("تعذر الاتصال بخدمة تيليجرام.");
-        });
-
-    } else {
-        let text = `🚨 *طلب صيانة وتعديل بايوس جديد!*\n\n` +
-                   `👤 *المركز/الفني:* ${clientName}\n` +
-                   `💻 *الموديل / البوردة:* ${deviceModel}\n` +
-                   `📝 *التفاصيل:* ${messageText}`;
-
-        let url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: text,
-                parse_mode: 'Markdown'
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
-
-            if (data.ok) {
-                alert(currentLang === 'ar' ? "تم إرسال طلبك الفني بنجاح إلى تليجرام!" : "Request sent successfully!");
-                document.getElementById('clientName').value = '';
-                document.getElementById('deviceModel').value = '';
-                document.getElementById('orderMessage').value = '';
-            } else {
-                alert("حدث خطأ أثناء الإرسال.");
-            }
-        })
-        .catch(error => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
-            alert("تعذر الاتصال بخدمة تيليجرام.");
-        });
-    }
-}
+                <button type="submit" class="submit-btn" id="submitOrderBtn">إرسال الطلب مباشرة إلى بوت تليجرام</button>
+            </form>
+        </div>
