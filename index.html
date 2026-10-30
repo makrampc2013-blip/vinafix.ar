@@ -425,35 +425,25 @@
             </div>
         </div>
 
-        <!-- 3. نموذج الطلبات -->
+        <!-- 3. نموذج الطلبات المباشر إلى تليجرام -->
         <div class="section-box">
             <h3 id="reqTitle">📥 طلب تعديل ملف أو إرسال دمب صيانة خاص</h3>
-            <p class="subtitle" id="reqSub">أدخل تفاصيل اللوحة الأم وارفع الملف لتتم معالجته</p>
+            <p class="subtitle" id="reqSub">أدخل تفاصيل اللوحة الأم وارسل الطلب ليصلك فوراً على بوت تليجرام</p>
             
-            <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="apikey" value="YOUR_ACCESS_KEY_HERE">
-
+            <form onsubmit="sendOrderToTelegram(event)">
                 <div class="form-group">
                     <label id="lblClientName">اسم الفني أو المركز التقني:</label>
-                    <input type="text" name="Client_Name" class="form-control" required placeholder="مثال: مركز مكرم للصيانة">
+                    <input type="text" id="clientName" class="form-control" required placeholder="مثال: مركز مكرم للصيانة">
                 </div>
                 <div class="form-group">
                     <label id="lblDeviceModel">رقم موديل البوردة الدقيق (Board Number):</label>
-                    <input type="text" name="Device_Model" class="form-control" required placeholder="مثال: DA0AM6MB8D0">
+                    <input type="text" id="deviceModel" class="form-control" required placeholder="مثال: DA0AM6MB8D0">
                 </div>
                 <div class="form-group">
                     <label id="lblMessage">تفاصيل المشكلة أو الخدمة المطلوبة:</label>
-                    <textarea name="Message" class="form-control" required placeholder="اكتب تفاصيل الإصلاح المطلوب..."></textarea>
+                    <textarea id="orderMessage" class="form-control" required placeholder="اكتب تفاصيل الإصلاح المطلوب..."></textarea>
                 </div>
-                <div class="form-group">
-                    <label id="lblFile">ملف البايوس أو الدمب الحالي (.bin / .rom):</label>
-                    <div class="file-input-wrapper" onclick="document.getElementById('biosFile').click()">
-                        <span id="filePromptText">📁 انقر لاختيار ملف الـ Dump</span>
-                        <input type="file" name="attachment" id="biosFile" accept=".bin,.rom,.hex,.zip,.rar,.brd,.cad" onchange="updateFileName(this)">
-                        <div id="selectedFileName" class="file-name-display"></div>
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn" id="submitOrderBtn">إرسال الطلب الفني للإدارة</button>
+                <button type="submit" class="submit-btn" id="submitOrderBtn">إرسال الطلب الفني إلى تيليجرام</button>
             </form>
         </div>
     </div>
@@ -496,13 +486,11 @@
                 vipThBv: "مخطط VIP",
                 statusAdv: "متقدم",
                 reqTitle: "📥 طلب تعديل ملف أو إرسال دمب صيانة خاص",
-                reqSub: "أدخل تفاصيل اللوحة الأم وارفع الملف لتتم معالجته",
+                reqSub: "أدخل تفاصيل اللوحة الأم وارسل الطلب ليصلك فوراً على بوت تليجرام",
                 lblClientName: "اسم الفني أو المركز التقني:",
                 lblDeviceModel: "رقم موديل البوردة الدقيق (Board Number):",
                 lblMessage: "تفاصيل المشكلة أو الخدمة المطلوبة:",
-                lblFile: "ملف البايوس أو الدمب الحالي (.bin / .rom):",
-                filePrompt: "📁 انقر لاختيار ملف الـ Dump",
-                submitOrder: "إرسال الطلب الفني للإدارة",
+                submitOrder: "إرسال الطلب الفني إلى تيليجرام",
                 footer: "جميع الحقوق محفوظة © 2026 - Makram BIOS Fix | منصة هندسة النظم المدمجة والبايوس",
                 tabLogin: "تسجيل الدخول",
                 tabReg: "حساب جديد",
@@ -537,13 +525,11 @@
                 vipThBv: "VIP Boardview",
                 statusAdv: "Advanced",
                 reqTitle: "📥 Request File Modification or Send Dump",
-                reqSub: "Enter board details and upload file for processing",
+                reqSub: "Enter board details and submit request to Telegram bot instantly",
                 lblClientName: "Technician / Center Name:",
                 lblDeviceModel: "Exact Board Number:",
                 lblMessage: "Service Details / Issue Description:",
-                lblFile: "Current BIOS Dump (.bin / .rom):",
-                filePrompt: "📁 Click to select Dump file",
-                submitOrder: "Submit Technical Request",
+                submitOrder: "Submit Request to Telegram",
                 footer: "All Rights Reserved © 2026 - Makram BIOS Fix | Embedded Systems & BIOS Engineering",
                 tabLogin: "Login",
                 tabReg: "Register",
@@ -595,8 +581,6 @@
             document.getElementById('lblClientName').innerText = t.lblClientName;
             document.getElementById('lblDeviceModel').innerText = t.lblDeviceModel;
             document.getElementById('lblMessage').innerText = t.lblMessage;
-            document.getElementById('lblFile').innerText = t.lblFile;
-            document.getElementById('filePromptText').innerText = t.filePrompt;
             document.getElementById('submitOrderBtn').innerText = t.submitOrder;
             document.getElementById('footerText').innerText = t.footer;
 
@@ -607,6 +591,49 @@
             if(!isUserLoggedIn) {
                 document.getElementById('loginNavBtn').innerText = t.loginNav;
             }
+        }
+
+        // دالة إرسال الطلب الهندسي المباشر إلى بوت تيليجرام الخاص بك
+        function sendOrderToTelegram(event) {
+            event.preventDefault();
+
+            const botToken = "9172822946:AAHA_nvv0_deRc6YI1Wby13_wdLtOwkn8ms"; 
+            const chatId = "6983424659"; 
+
+            let clientName = document.getElementById('clientName').value;
+            let deviceModel = document.getElementById('deviceModel').value;
+            let messageText = document.getElementById('orderMessage').value;
+
+            let text = `🚨 *طلب صيانة وتعديل بايوس جديد!*\n\n` +
+                       `👤 *المركز/الفني:* ${clientName}\n` +
+                       `💻 *الموديل / البوردة:* ${deviceModel}\n` +
+                       `📝 *التفاصيل:* ${messageText}`;
+
+            let url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(currentLang === 'ar' ? "تم إرسال طلبك الفني بنجاح إلى تليجرام الخاص بمكرم!" : "Request sent successfully to Telegram!");
+                    document.getElementById('clientName').value = '';
+                    document.getElementById('deviceModel').value = '';
+                    document.getElementById('orderMessage').value = '';
+                } else {
+                    alert("حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("تعذر الاتصال بخدمة تيليجرام.");
+            });
         }
 
         function openAuthModal(tab = 'login') {
@@ -718,13 +745,6 @@
                         tr[i].style.display = "none";
                     }
                 }
-            }
-        }
-
-        function updateFileName(input) {
-            const display = document.getElementById('selectedFileName');
-            if (input.files && input.files[0]) {
-                display.innerText = (currentLang === 'ar' ? "الملف المختار: " : "Selected file: ") + input.files[0].name;
             }
         }
 
