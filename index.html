@@ -1,88 +1,379 @@
-function sendOrderWithFileToTelegram(event) {
-    event.preventDefault();
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAKRAM BIOS FIX - خدمة صيانة وبرمجة البايوس</title>
+    <!-- خط عربي عصري -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --success-color: #22c55e;
+        }
 
-    const botToken = "9172822946:AAHA_nvv0_deRc6YI1Wby13_wdLtOwkn8ms"; 
-    const chatId = "6983424659"; // شاتك الخاص حصراً
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
 
-    let clientName = document.getElementById('clientName').value;
-    let deviceModel = document.getElementById('deviceModel').value;
-    let messageText = document.getElementById('orderMessage').value;
-    let fileInput = document.getElementById('biosFile');
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
 
-    let submitBtn = document.getElementById('submitOrderBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = currentLang === 'ar' ? "جاري الرفع والإرسال..." : "Uploading & Sending...";
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 40px auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
 
-    if (fileInput.files && fileInput.files[0]) {
-        let formData = new FormData();
-        formData.append('chat_id', chatId);
-        formData.append('document', fileInput.files[0]);
-        formData.append('caption', `🚨 *طلب صيانة جديد مع ملف مرفق!*\n\n👤 *المركز/الفني:* ${clientName}\n💻 *الموديل:* ${deviceModel}\n📝 *التفاصيل:* ${messageText}`);
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-        let url = `https://api.telegram.org/bot${botToken}/sendDocument`;
+        header h1 {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
 
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
+        header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
 
-            if (data.ok) {
-                alert(currentLang === 'ar' ? "تم إرسال الطلب وملف البايوس بنجاح إلى تيليجرام!" : "Order and file sent successfully!");
-                document.getElementById('clientName').value = '';
-                document.getElementById('deviceModel').value = '';
-                document.getElementById('orderMessage').value = '';
-                fileInput.value = '';
-                document.getElementById('fileNameDisplay').innerText = '';
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* تصميم زر رفع الملف المخصص */
+        .file-upload-wrapper {
+            position: relative;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            background-color: #0f172a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: var(--accent-color);
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-content i {
+            font-size: 28px;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .file-upload-content span {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        #fileNameDisplay {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        /* زر الإرسال الرئيسي */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:disabled {
+            background-color: var(--border-color);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* زر التواصل المباشر */
+        .direct-chat {
+            margin-top: 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .direct-chat a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .direct-chat a:hover {
+            opacity: 0.8;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>MAKRAM BIOS FIX</h1>
+            <p>أرسل طلب الصيانة أو تفريغ البايوس مباشرة وسيصلنا فوراً</p>
+        </header>
+
+        <form id="orderForm" onsubmit="sendOrderWithFileToTelegram(event)">
+            
+            <div class="form-group">
+                <label for="clientName"><i class="fa-solid fa-user"></i> اسم الفني / المركز:</label>
+                <input type="text" id="clientName" placeholder="أدخل اسمك أو اسم مركزك" required>
+            </div>
+
+            <div class="form-group">
+                <label for="clientContact"><i class="fa-solid fa-phone"></i> رقم الهاتف أو معرف تليجرام:</label>
+                <input type="text" id="clientContact" placeholder="مثال: @username أو رقم الواتساب" required>
+            </div>
+
+            <div class="form-group">
+                <label for="deviceModel"><i class="fa-solid fa-laptop-code"></i> موديل الجهاز أو البوردة:</label>
+                <input type="text" id="deviceModel" placeholder="مثال: ASUS X555UA أو Latitude 5490" required>
+            </div>
+
+            <div class="form-group">
+                <label for="biosFile"><i class="fa-solid fa-file-arrow-up"></i> ملف البايوس (اختياري):</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="biosFile" onchange="showFileName(this)">
+                    <div class="file-upload-content">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>اسحب الملف هنا أو اضغط للاختيار (Bin, Rom...)</span>
+                    </div>
+                </div>
+                <div id="fileNameDisplay"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="orderMessage"><i class="fa-solid fa-pen-to-square"></i> تفاصيل الطلب أو المشكلة:</label>
+                <textarea id="orderMessage" placeholder="اكتب تفاصيل المشكلة (بور، فك باسورد، تفريغ نظيف...)"></textarea>
+            </div>
+
+            <button type="submit" id="submitOrderBtn" class="btn-submit">
+                <i class="fa-brands fa-telegram"></i> إرسال الطلب إلى تليجرام
+            </button>
+        </form>
+
+        <div class="direct-chat">
+            <a href="https://t.me/6983424659" target="_blank">
+                <i class="fa-brands fa-telegram"></i> أو تواصل معي مباشرة عبر تليجرام
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 MAKRAM BIOS FIX. All Rights Reserved.
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        // دالة عرض اسم الملف المختار لتجربة مستخدم أفضل
+        function showFileName(input) {
+            let display = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                display.innerText = "الملف المختار: " + input.files[0].name;
             } else {
-                alert((currentLang === 'ar' ? "خطأ من تيليجرام: " : "Telegram Error: ") + (data.description || "تأكد من الاتصال."));
+                display.innerText = "";
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
-            alert("تعذر الاتصال بخدمة تيليجرام.");
-        });
+        }
 
-    } else {
-        let text = `🚨 *طلب صيانة وتعديل بايوس جديد!*\n\n` +
-                   `👤 *المركز/الفني:* ${clientName}\n` +
-                   `💻 *الموديل / البوردة:* ${deviceModel}\n` +
-                   `📝 *التفاصيل:* ${messageText}`;
+        // دالة الإرسال إلى تليجرام (مع حماية الحجم وإرسال وسائل التواصل)
+        function sendOrderWithFileToTelegram(event) {
+            event.preventDefault();
 
-        let url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            const botToken = "9172822946:AAHA_nvv0_deRc6YI1Wby13_wdLtOwkn8ms"; 
+            const chatId = "6983424659"; 
 
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: text,
-                parse_mode: 'Markdown'
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
+            let clientName = document.getElementById('clientName').value.trim();
+            let clientContact = document.getElementById('clientContact').value.trim();
+            let deviceModel = document.getElementById('deviceModel').value.trim();
+            let messageText = document.getElementById('orderMessage').value.trim();
+            let fileInput = document.getElementById('biosFile');
 
-            if (data.ok) {
-                alert(currentLang === 'ar' ? "تم إرسال طلبك الفني بنجاح إلى تليجرام!" : "Request sent successfully!");
-                document.getElementById('clientName').value = '';
-                document.getElementById('deviceModel').value = '';
-                document.getElementById('orderMessage').value = '';
+            let submitBtn = document.getElementById('submitOrderBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري الرفع والإرسال...`;
+
+            if (fileInput.files && fileInput.files[0]) {
+                let fileSizeMB = fileInput.files[0].size / (1024 * 1024);
+                if (fileSizeMB > 48) {
+                    alert("حجم الملف كبير جداً! الحد الأقصى للرفع المباشر هو 48 ميجابايت.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-brands fa-telegram"></i> إرسال الطلب إلى تليجرام`;
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append('chat_id', chatId);
+                formData.append('document', fileInput.files[0]);
+                formData.append('caption', `🚨 *طلب صيانة وبايوس جديد!*\n\n👤 *الفني/المركز:* ${clientName}\n📞 *للتواصل:* ${clientContact}\n💻 *الموديل:* ${deviceModel}\n📝 *التفاصيل:* ${messageText}`);
+
+                let url = `https://api.telegram.org/bot${botToken}/sendDocument`;
+
+                fetch(url, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-brands fa-telegram"></i> إرسال الطلب إلى تليجرام`;
+
+                    if (data.ok) {
+                        alert("تم إرسال الطلب وملف البايوس بنجاح إلى تليجرام!");
+                        document.getElementById('orderForm').reset();
+                        document.getElementById('fileNameDisplay').innerText = '';
+                    } else {
+                        alert("خطأ من تيليجرام: " + (data.description || "تأكد من الاتصال."));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-brands fa-telegram"></i> إرسال الطلب إلى تليجرام`;
+                    alert("تعذر الاتصال بخدمة تيليجرام، تأكد من الإنترنت.");
+                });
+
             } else {
-                alert("حدث خطأ أثناء الإرسال.");
+                let text = `🚨 *طلب صيانة وبايوس جديد (بدون ملف):*\n\n` +
+                           `👤 *الفني/المركز:* ${clientName}\n` +
+                           `📞 *للتواصل:* ${clientContact}\n` +
+                           `💻 *الموديل / البوردة:* ${deviceModel}\n` +
+                           `📝 *التفاصيل:* ${messageText}`;
+
+                let url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: text,
+                        parse_mode: 'Markdown'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-brands fa-telegram"></i> إرسال الطلب إلى تليجرام`;
+
+                    if (data.ok) {
+                        alert("تم إرسال طلبك الفني بنجاح إلى تليجرام!");
+                        document.getElementById('orderForm').reset();
+                    } else {
+                        alert("حدث خطأ أثناء الإرسال.");
+                    }
+                })
+                .catch(error => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-brands fa-telegram"></i> إرسال الطلب إلى تليجرام`;
+                    alert("تعذر الاتصال بخدمة تيليجرام.");
+                });
             }
-        })
-        .catch(error => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = currentLang === 'ar' ? "إرسال الطلب والملف إلى تيليجرام" : "Submit Order & File to Telegram";
-            alert("تعذر الاتصال بخدمة تيليجرام.");
-        });
-    }
-}
+        }
+    </script>
+</body>
+</html>
