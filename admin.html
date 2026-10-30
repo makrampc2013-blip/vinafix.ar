@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة إدارة المشرف | Makram BIOS Fix</title>
+    <title>لوحة تحكم المشرف | Makram BIOS Fix</title>
     <style>
         :root {
             --bg-color: #05070b;
             --card-bg: #0d1322;
             --card-border: #1e293b;
             --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --success-color: #22c55e;
@@ -17,253 +18,253 @@
             --danger-color: #ef4444;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 40px; }
 
-        /* شاشة تسجيل الدخول العصرية */
-        #loginScreen {
-            width: 100%;
-            max-width: 400px;
-            background: linear-gradient(145deg, #0d1322, #080d1a);
-            border: 1px solid var(--card-border);
-            padding: 35px 25px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
-            text-align: center;
-        }
-        .login-logo {
-            width: 60px;
-            height: 60px;
-            background: rgba(245, 158, 11, 0.1);
-            border: 2px solid var(--vip-color);
-            border-radius: 50%;
+        header {
+            background: rgba(13, 19, 34, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 12px 15px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        #loginScreen h2 { color: var(--vip-color); font-size: 20px; margin-bottom: 6px; }
-        #loginScreen p { color: var(--text-muted); font-size: 12px; margin-bottom: 20px; }
-        .login-input {
+        .logo-area { display: flex; align-items: center; gap: 8px; }
+        .logo-text h1 { font-size: 15px; color: var(--accent-color); font-weight: 700; }
+        .logo-text p { font-size: 9px; color: var(--text-muted); }
+
+        .back-link {
+            background: rgba(30, 41, 59, 0.6);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 5px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .back-link:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+        .container { max-width: 900px; margin: 20px auto; padding: 0 12px; }
+
+        .section-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .section-box h3 { color: var(--accent-color); font-size: 15px; margin-bottom: 12px; text-align: center; }
+
+        .form-group { margin-bottom: 12px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 12px; color: var(--accent-color); }
+        .form-control {
             width: 100%;
-            padding: 12px;
+            padding: 9px 12px;
             background-color: var(--bg-color);
             border: 1px solid var(--card-border);
             color: var(--text-main);
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 12px;
             outline: none;
-            text-align: center;
-            margin-bottom: 15px;
-            transition: 0.3s;
         }
-        .login-input:focus { border-color: var(--vip-color); box-shadow: 0 0 10px rgba(245,158,11,0.2); }
-        .login-btn {
-            width: 100%;
-            background-color: var(--vip-color);
-            color: #000;
-            border: none;
+        .form-control:focus { border-color: var(--accent-color); }
+
+        .file-input-wrapper {
+            border: 2px dashed var(--card-border);
             padding: 12px;
-            font-size: 15px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: var(--bg-color);
+            cursor: pointer;
+        }
+        .file-input-wrapper input { display: none; }
+        .file-name-display { margin-top: 5px; font-size: 11px; color: var(--success-color); font-weight: bold; }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            color: #05070b;
+            border: none;
+            padding: 10px;
+            font-size: 13px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 5px;
         }
-        .login-btn:hover { opacity: 0.85; }
 
-        /* لوحة التحكم الفعلية */
-        #adminDashboard {
-            display: none;
-            width: 100%;
-            max-width: 1050px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        .table-responsive { overflow-x: auto; margin-top: 10px; }
+        .bios-table { width: 100%; border-collapse: collapse; text-align: right; white-space: nowrap; }
+        .bios-table th, .bios-table td { padding: 9px 11px; border-bottom: 1px solid var(--card-border); font-size: 11px; }
+        .bios-table th { background-color: rgba(56, 189, 248, 0.04); color: var(--accent-color); }
+
+        .delete-btn {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
         }
-        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
-        .dash-header h2 { color: var(--vip-color); font-size: 18px; }
-        .logout-btn { background: transparent; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.3s; }
-        .logout-btn:hover { background-color: var(--danger-color); color: #fff; }
-
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 15px; }
-        .form-control { width: 100%; padding: 10px 12px; background-color: var(--bg-color); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 8px; font-size: 13px; outline: none; }
-        .form-control:focus { border-color: var(--vip-color); }
-        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 12px; color: var(--text-muted); }
-        
-        .submit-btn { width: 100%; background-color: var(--vip-color); color: #000; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .submit-btn:hover { opacity: 0.85; }
-        .back-link { display: inline-block; margin-bottom: 15px; color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 12px; }
-        
-        .bios-table { width: 100%; border-collapse: collapse; text-align: right; margin-top: 10px; white-space: nowrap; }
-        .bios-table th, .bios-table td { padding: 10px 12px; border-bottom: 1px solid var(--card-border); font-size: 13px; }
-        .bios-table th { background-color: rgba(245, 158, 11, 0.05); color: var(--vip-color); }
-        .delete-btn { background-color: var(--danger-color); color: #fff; padding: 4px 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; }
-
-        .section-title { margin-top: 25px; margin-bottom: 8px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
     </style>
 </head>
 <body>
 
-    <!-- 1. شاشة تسجيل الدخول للمشرف -->
-    <div id="loginScreen">
-        <div class="login-logo">🔐</div>
-        <h2>لوحة تحكم المشرف</h2>
-        <p>Makram BIOS Fix - Admin Security Portal</p>
-        <form onsubmit="handleLogin(event)">
-            <input type="password" id="adminPassInput" class="login-input" required placeholder="أدخل كلمة مرور المشرف (makram123)...">
-            <button type="submit" class="login-btn">دخول آمن</button>
-        </form>
-        <br>
-        <a href="index.html" class="back-link">&larr; العودة للموقع الرئيسي</a>
-    </div>
-
-    <!-- 2. لوحة التحكم والإدارة الفعلية -->
-    <div id="adminDashboard">
-        <div class="dash-header">
-            <h2>⚙️ لوحة إدارة Makram BIOS Fix</h2>
-            <button onclick="logoutAdmin()" class="logout-btn">تسجيل الخروج</button>
+    <header>
+        <div class="logo-area">
+            <div class="logo-text">
+                <h1>Makram BIOS Admin</h1>
+                <p>لوحة التحكم والإدارة</p>
+            </div>
         </div>
-        
-        <a href="index.html" class="back-link">&larr; معاينة الموقع العام</a>
+        <a href="index.html" class="back-link">⬅ العودة للموقع</a>
+    </header>
 
-        <!-- نموذج إضافة ملف بايوس جديد -->
-        <div style="background: rgba(255,255,255,0.01); border: 1px solid var(--card-border); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-            <h3 style="color: var(--accent-color); font-size: 15px; margin-bottom: 12px;">➕ إضافة ونشر ملف بايوس / بوردفيو جديد</h3>
-            <form onsubmit="addFile(event)">
-                <div class="form-grid">
-                    <div>
-                        <label>القسم المستهدف:</label>
-                        <select id="sectionType" class="form-control">
-                            <option value="public">📂 القسم العام (مجاني)</option>
-                            <option value="vip">⭐ قسم VIP (حَصري)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>موديل اللوحة / الشركة:</label>
-                        <input type="text" id="model" class="form-control" required placeholder="مثال: DELL Latitude 5490">
-                    </div>
-                    <div>
-                        <label>وصف الإصدار الفني:</label>
-                        <input type="text" id="desc" class="form-control" required placeholder="مثال: Clean ME Tested 100%">
-                    </div>
-                    <div>
-                        <label>رابط تحميل البايوس (BIOS):</label>
-                        <input type="url" id="biosLink" class="form-control" required placeholder="https://t.me/...">
-                    </div>
-                    <div>
-                        <label>رابط تحميل المخطط (Boardview):</label>
-                        <input type="url" id="bvLink" class="form-control" required placeholder="https://t.me/...">
+    <div class="container">
+        <!-- نموذج إضافة ملف جديد محلياً -->
+        <div class="section-box">
+            <h3>➕ إضافة ملف بايوص أو مخطط جديد (رفع مباشر)</h3>
+            <form onsubmit="addNewItem(event)">
+                <div class="form-group">
+                    <label>القسم:</label>
+                    <select id="itemSection" class="form-control">
+                        <option value="public">مكتبة الملفات العامة</option>
+                        <option value="vip">قسم الـ VIP الحصري</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>موديل اللوحة / الجهاز (مثال: DELL Latitude 5490):</label>
+                    <input type="text" id="itemModel" class="form-control" required placeholder="أدخل الموديل واسم البوردة...">
+                </div>
+
+                <div class="form-group">
+                    <label>وصف الإصدار الفني أو الخدمة:</label>
+                    <input type="text" id="itemDesc" class="form-control" required placeholder="مثال: Clean ME Region - Tested 100%">
+                </div>
+
+                <div class="form-group">
+                    <label>اختر ملف البايوس (.bin / .rom / .rar / كاد):</label>
+                    <div class="file-input-wrapper" onclick="document.getElementById('itemFile').click()">
+                        <input type="file" id="itemFile" required onchange="showFileName(this)">
+                        <span id="filePrompt" style="color: var(--text-muted); font-size: 12px;">📁 اضغط هنا لاختيار الملف من جهازك أو هاتفك</span>
+                        <div id="fileDisplay" class="file-name-display"></div>
                     </div>
                 </div>
-                <button type="submit" class="submit-btn">نشر الملف فوراً في المنصة</button>
+
+                <button type="submit" class="submit-btn">رفع وإضافة الملف إلى الجدول</button>
             </form>
         </div>
 
-        <!-- جداول عرض الملفات الحالية -->
-        <h3 class="section-title" style="color: var(--accent-color);">📋 الملفات العامة الحالية في المنصة:</h3>
-        <div style="overflow-x: auto;">
-            <table class="bios-table">
-                <thead>
-                    <tr><th>الموديل</th><th>الوصف</th><th>البايوس</th><th>البوردفيو</th><th>إدارة</th></tr>
-                </thead>
-                <tbody id="adminPublicBody"></tbody>
-            </table>
-        </div>
-
-        <h3 class="section-title" style="color: var(--vip-color);">⭐ ملفات الـ VIP الحصرية الحالية:</h3>
-        <div style="overflow-x: auto;">
-            <table class="bios-table">
-                <thead>
-                    <tr><th>الموديل</th><th>الوصف</th><th>البايوس</th><th>البوردفيو</th><th>إدارة</th></tr>
-                </thead>
-                <tbody id="adminVipBody"></tbody>
-            </table>
-        </div>
-
-        <!-- قسم استقبال الدردشة والتعليقات -->
-        <h3 class="section-title" style="color: var(--success-color); margin-top: 35px;">💬 رسائل وتعليقات الزوار والتقنيين (Live Chat & Comments):</h3>
-        <div style="background: var(--bg-color); border: 1px solid var(--card-border); padding: 15px; border-radius: 10px; min-height: 100px; max-height: 200px; overflow-y: auto;" id="adminMessagesBox">
-            <p style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px;">لا توجد رسائل أو تعليقات جديدة حالياً. (تصلك عبر نموذج الإرسال في الصفحة الرئيسية أو Web3Forms)</p>
+        <!-- إدارة الملفات الحالية -->
+        <div class="section-box">
+            <h3>📂 الملفات المرفوعة حالياً في الموقع</h3>
+            <div class="table-responsive">
+                <table class="bios-table">
+                    <thead>
+                        <tr>
+                            <th>الموديل</th>
+                            <th>الوصف</th>
+                            <th>اسم الملف المرفوع</th>
+                            <th>القسم</th>
+                            <th>تحكم</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- يتم تعبئتها تلقائياً -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script>
+        let uploadedFilesDB = JSON.parse(localStorage.getItem('makramFilesDB')) || [];
+
+        function showFileName(input) {
+            let display = document.getElementById('fileDisplay');
+            if (input.files && input.files[0]) {
+                display.innerText = "📎 تم اختيار الملف: " + input.files[0].name;
+            }
+        }
+
+        function addNewItem(event) {
+            event.preventDefault();
+            let section = document.getElementById('itemSection').value;
+            let model = document.getElementById('itemModel').value;
+            let desc = document.getElementById('itemDesc').value;
+            let fileInput = document.getElementById('itemFile');
+
+            if (fileInput.files && fileInput.files[0]) {
+                let file = fileInput.files[0];
+                let reader = new FileReader();
+
+                // قراءة الملف وتحويله لتخزينه محلياً بداخل الموقع
+                reader.onload = function(e) {
+                    let fileDataUrl = e.target.result;
+
+                    let newItem = {
+                        id: Date.now(),
+                        section: section,
+                        model: model,
+                        desc: desc,
+                        fileName: file.name,
+                        fileUrl: fileDataUrl
+                    };
+
+                    uploadedFilesDB.push(newItem);
+                    localStorage.setItem('makramFilesDB', JSON.stringify(uploadedFilesDB));
+
+                    alert("تم رفع الملف وإضافته بنجاح!");
+                    document.getElementById('itemModel').value = '';
+                    document.getElementById('itemDesc').value = '';
+                    fileInput.value = '';
+                    document.getElementById('fileDisplay').innerText = '';
+                    renderAdminTable();
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function deleteItem(id) {
+            if (confirm("هل أنت متأكد من حذف هذا الملف؟")) {
+                uploadedFilesDB = uploadedFilesDB.filter(item => item.id !== id);
+                localStorage.setItem('makramFilesDB', JSON.stringify(uploadedFilesDB));
+                renderAdminTable();
+            }
+        }
+
+        function renderAdminTable() {
+            let tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = '';
+
+            if (uploadedFilesDB.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">لا توجد ملفات مرفوعة حالياً.</td></tr>`;
+                return;
+            }
+
+            uploadedFilesDB.forEach(item => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.model}</td>
+                    <td>${item.desc}</td>
+                    <td style="color: var(--accent-color);">${item.fileName}</td>
+                    <td>${item.section === 'public' ? 'عام' : 'VIP'}</td>
+                    <td><button class="delete-btn" onclick="deleteItem(${item.id})">حذف</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
         window.onload = function() {
-            if (localStorage.getItem('makramAdminLogged') === 'true') {
-                showDashboard();
-            }
-        };
-
-        function handleLogin(event) {
-            event.preventDefault();
-            let pass = document.getElementById('adminPassInput').value;
-            if (pass === "makram123") {
-                localStorage.setItem('makramAdminLogged', 'true');
-                showDashboard();
-            } else {
-                alert("كلمة مرور المشرف غير صحيحة!");
-                document.getElementById('adminPassInput').value = '';
-            }
-        }
-
-        function showDashboard() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('adminDashboard').style.display = 'block';
-            loadTables();
-        }
-
-        function logoutAdmin() {
-            localStorage.removeItem('makramAdminLogged');
-            location.reload();
-        }
-
-        function loadTables() {
-            let pubTable = localStorage.getItem('makramBiosTable');
-            if (pubTable) document.getElementById('adminPublicBody').innerHTML = pubTable;
-
-            let vipTable = localStorage.getItem('makramVipTable');
-            if (vipTable) document.getElementById('adminVipBody').innerHTML = vipTable;
-        }
-
-        function addFile(event) {
-            event.preventDefault();
-            let type = document.getElementById('sectionType').value;
-            let model = document.getElementById('model').value;
-            let desc = document.getElementById('desc').value;
-            let biosLink = document.getElementById('biosLink').value;
-            let bvLink = document.getElementById('bvLink').value;
-
-            let newRow = document.createElement('tr');
-            let labelBadge = type === 'vip' ? '<span style="background:var(--vip-color); color:#000; padding:2px 6px; border-radius:4px; font-size:10px; margin-left:5px;">VIP</span>' : '';
-            
-            newRow.innerHTML = `
-                <td>${labelBadge}${model}</td>
-                <td>${desc}</td>
-                <td><a href="${biosLink}" target="_blank" style="color:var(--accent-color)">تحميل</a></td>
-                <td><a href="${bvLink}" target="_blank" style="color:var(--vip-color)">تحميل</a></td>
-                <td><button class="delete-btn" onclick="this.closest('tr').remove(); saveTables();">حذف</button></td>
-            `;
-
-            if (type === 'public') {
-                document.getElementById('adminPublicBody').appendChild(newRow);
-            } else {
-                document.getElementById('adminVipBody').appendChild(newRow);
-            }
-
-            saveTables();
-            document.getElementById('model').value = '';
-            document.getElementById('desc').value = '';
-            document.getElementById('biosLink').value = '';
-            document.getElementById('bvLink').value = '';
-            alert("تمت إضافة ونشر الملف في المنصة بنجاح!");
-        }
-
-        function saveTables() {
-            localStorage.setItem('makramBiosTable', document.getElementById('adminPublicBody').innerHTML);
-            localStorage.setItem('makramVipTable', document.getElementById('adminVipBody').innerHTML);
+            renderAdminTable();
         }
     </script>
 </body>
