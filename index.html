@@ -1,24 +1,24 @@
-        <!-- 3. نموذج الطلبات المباشر عبر تيليجرام (مستقر 100%) -->
-        <div class="section-box">
-            <h3 id="reqTitle">📥 طلب تعديل ملف أو إرسال دمب صيانة خاص</h3>
-            <p class="subtitle" id="reqSub">أدخل تفاصيل اللوحة الأم واضغط إرسال ليتم تحويلك فوراً إلى بوت تليجرام</p>
+        <!-- 3. نموذج الطلبات المباشر عبر تيليجرام (مرتب ومنظم) -->
+        <div class="section-box" style="text-align: right;">
+            <h3 id="reqTitle" style="text-align: center;">📥 طلب تعديل ملف أو إرسال دمب صيانة خاص</h3>
+            <p class="subtitle" id="reqSub" style="text-align: center;">أدخل تفاصيل اللوحة الأم واضغط إرسال ليتم تحويلك فوراً إلى بوت تليجرام</p>
             
             <form onsubmit="sendOrderDirectToTelegram(event)">
-                <div class="form-group">
-                    <label id="lblClientName">اسم الفني أو المركز التقني:</label>
-                    <input type="text" id="clientName" class="form-control" required placeholder="مثال: مركز مكرم للصيانة">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label id="lblClientName" style="display: block; margin-bottom: 5px; color: var(--accent-color); font-weight: 600; font-size: 13px;">اسم الفني أو المركز التقني:</label>
+                    <input type="text" id="clientName" class="form-control" required placeholder="مثال: مركز مكرم للصيانة" style="width: 100%; padding: 10px; border-radius: 8px; background: var(--bg-color); border: 1px solid var(--card-border); color: #fff;">
                 </div>
                 
-                <div class="form-group">
-                    <label id="lblDeviceModel">رقم موديل البوردة الدقيق (Board Number):</label>
-                    <input type="text" id="deviceModel" class="form-control" required placeholder="مثال: DA0AM6MB8D0">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label id="lblDeviceModel" style="display: block; margin-bottom: 5px; color: var(--accent-color); font-weight: 600; font-size: 13px;">رقم موديل البوردة الدقيق (Board Number):</label>
+                    <input type="text" id="deviceModel" class="form-control" required placeholder="مثال: DA0AM6MB8D0" style="width: 100%; padding: 10px; border-radius: 8px; background: var(--bg-color); border: 1px solid var(--card-border); color: #fff;">
                 </div>
                 
-                <div class="form-group">
-                    <label id="lblMessage">تفاصيل المشكلة أو الخدمة المطلوبة:</label>
-                    <textarea id="orderMessage" class="form-control" required placeholder="اكتب تفاصيل الإصلاح أو التعديل المطلوب..."></textarea>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label id="lblMessage" style="display: block; margin-bottom: 5px; color: var(--accent-color); font-weight: 600; font-size: 13px;">تفاصيل المشكلة أو الخدمة المطلوبة:</label>
+                    <textarea id="orderMessage" class="form-control" required placeholder="اكتب تفاصيل الإصلاح أو التعديل المطلوب..." style="width: 100%; padding: 10px; border-radius: 8px; background: var(--bg-color); border: 1px solid var(--card-border); color: #fff; min-height: 80px;"></textarea>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitOrderBtn">إرسال الطلب مباشرة إلى بوت تليجرام</button>
+                <button type="submit" class="submit-btn" id="submitOrderBtn" style="width: 100%; padding: 12px; background: var(--accent-color); color: #000; font-weight: bold; border: none; border-radius: 8px; cursor: pointer;">إرسال الطلب مباشرة إلى بوت تليجرام</button>
             </form>
         </div>
